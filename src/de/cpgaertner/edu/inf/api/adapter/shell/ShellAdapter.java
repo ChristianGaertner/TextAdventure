@@ -28,6 +28,7 @@ public class ShellAdapter implements Adapter {
 
     @Override
     public String read(String prompt) throws IOException {
+        System.out.print(prompt);
         return getReader().readLine();
     }
 

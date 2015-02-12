@@ -4,20 +4,11 @@ import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 
+import java.io.IOException;
+
 public interface Routine {
 
 
-    public void enter(Player player, Location location);
-
-    /**
-     * Returns true when the player is required to input text
-     * @return interaction needed
-     */
-    public boolean isInteractive();
-
-
-    public Adapter getAdapter();
-
-    public void setAdapter(Adapter adapter);
+    public void enter(Player player, Location location, Adapter adapter) throws IOException;
 
 }

@@ -17,6 +17,8 @@ public interface Player {
 
     public String getName();
 
+    public void setName(String name);
+
     public Location getLocation();
 
     public Inventory getInventory();
