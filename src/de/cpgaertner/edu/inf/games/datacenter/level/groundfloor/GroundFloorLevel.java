@@ -8,6 +8,11 @@ public class GroundFloorLevel implements Level {
 
     @Getter protected String name = "Erdgeschoss";
 
+
+    @Getter protected Location start;
+
+
+
     /**
      * Initialize the Level
      * <p/>
@@ -27,15 +32,5 @@ public class GroundFloorLevel implements Level {
     @Override
     public void close() {
 
-    }
-
-    /**
-     * Return the initial Location
-     *
-     * @return initial location
-     */
-    @Override
-    public Location getStart() {
-        return null;
     }
 }

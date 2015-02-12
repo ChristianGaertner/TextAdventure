@@ -59,6 +59,13 @@ public class DataCenterAdventure implements Game {
                 adapter.send("Super. Das ist Klasse. Am Besten du schaust erstmal im Kontroll Raum vorbei, " +
                         "der ist links im Gang die erste Tür rechts!");
 
+
+                /*
+                Just set a few properties of the Player
+                 */
+
+                player.setLocation(location);
+
             }
         };
     }

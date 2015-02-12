@@ -21,6 +21,8 @@ public interface Player {
 
     public Location getLocation();
 
+    public void setLocation(Location location);
+
     public Inventory getInventory();
 
     /**
@@ -28,5 +30,7 @@ public interface Player {
      * @return Item in Hand | null
      */
     public Item getItemInHand();
+
+    public void setItemInHand(Item item);
 
 }

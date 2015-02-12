@@ -17,7 +17,7 @@ public class Main {
         Adapter a = new ShellAdapter();
         a.init();
 
-        g.getInitialRoutine(a).enter(g.getPlayer(), null, a);
+        g.getInitialRoutine(a).enter(g.getPlayer(), g.getLevel().getStart(), a);
 
 
         System.out.println(g.getPlayer());
