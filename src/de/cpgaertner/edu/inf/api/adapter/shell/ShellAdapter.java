@@ -24,6 +24,7 @@ public class ShellAdapter implements Adapter {
     @Override
     public void sendf(String msg, Object... args) throws IOException {
         System.out.printf(msg, args);
+        System.out.println();
     }
 
     @Override

@@ -8,7 +8,7 @@ import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.DefaultPlayer;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.Routine;
-import de.cpgaertner.edu.inf.games.datacenter.level.GroundFloorLevel;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class DataCenterAdventure implements Game {
 
                 adapter.sendf("Hi %s. Ich freue mich das du hier bist. Um ehrlich zu sein haben wir hier gerade ein " +
                         "paar Probleme. Irgendjemand hat sich Zugang zu unserem Rechenzentrum verschaffen und alle " +
-                        "Server lahm gelegt. Kannst Du uns helfen das Problem zu lösen?", name);
+                        "Server lahm gelegt.\nKannst Du uns helfen das Problem zu lösen?", name);
 
                 String answer = adapter.read("[j/n]");
 

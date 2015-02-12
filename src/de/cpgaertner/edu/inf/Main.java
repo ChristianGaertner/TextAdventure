@@ -15,8 +15,12 @@ public class Main {
 
         Game g = new DataCenterAdventure();
         Adapter a = new ShellAdapter();
+        a.init();
 
         g.getInitialRoutine(a).enter(g.getPlayer(), null, a);
+
+
+        System.out.println(g.getPlayer());
 
 
 

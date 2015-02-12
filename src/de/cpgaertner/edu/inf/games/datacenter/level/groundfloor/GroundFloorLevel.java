@@ -1,18 +1,12 @@
-package de.cpgaertner.edu.inf.games.datacenter.level;
+package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor;
 
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
+import lombok.Getter;
 
 public class GroundFloorLevel implements Level {
-    /**
-     * Return the Name of the Level
-     *
-     * @return Level Name
-     */
-    @Override
-    public String getName() {
-        return null;
-    }
+
+    @Getter protected String name = "Erdgeschoss";
 
     /**
      * Initialize the Level
