@@ -1,4 +1,4 @@
-package de.cpgaertner.edu.inf.level;
+package de.cpgaertner.edu.inf.api.level;
 
 public interface Level {
 

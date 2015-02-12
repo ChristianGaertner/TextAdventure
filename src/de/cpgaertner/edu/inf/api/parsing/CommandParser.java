@@ -1,6 +1,6 @@
-package de.cpgaertner.edu.inf.parsing;
+package de.cpgaertner.edu.inf.api.parsing;
 
-import de.cpgaertner.edu.inf.command.Command;
+import de.cpgaertner.edu.inf.api.command.Command;
 
 import java.io.IOException;
 

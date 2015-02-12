@@ -1,8 +1,8 @@
-package de.cpgaertner.edu.inf.level;
+package de.cpgaertner.edu.inf.api.level;
 
-import de.cpgaertner.edu.inf.adapter.Adapter;
-import de.cpgaertner.edu.inf.level.player.Player;
-import de.cpgaertner.edu.inf.routine.Routine;
+import de.cpgaertner.edu.inf.api.adapter.Adapter;
+import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.routine.Routine;
 
 public interface Location {
 

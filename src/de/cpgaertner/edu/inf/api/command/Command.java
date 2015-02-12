@@ -1,4 +1,4 @@
-package de.cpgaertner.edu.inf.command;
+package de.cpgaertner.edu.inf.api.command;
 
 public interface Command {
 

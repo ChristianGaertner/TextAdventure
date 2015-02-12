@@ -1,4 +1,4 @@
-package de.cpgaertner.edu.inf.adapter;
+package de.cpgaertner.edu.inf.api.adapter;
 
 import java.io.Closeable;
 import java.io.IOException;

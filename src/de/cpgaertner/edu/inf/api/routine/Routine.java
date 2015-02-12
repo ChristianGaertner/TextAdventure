@@ -1,8 +1,8 @@
-package de.cpgaertner.edu.inf.routine;
+package de.cpgaertner.edu.inf.api.routine;
 
-import de.cpgaertner.edu.inf.adapter.Adapter;
-import de.cpgaertner.edu.inf.level.Location;
-import de.cpgaertner.edu.inf.level.player.Player;
+import de.cpgaertner.edu.inf.api.adapter.Adapter;
+import de.cpgaertner.edu.inf.api.level.Location;
+import de.cpgaertner.edu.inf.api.level.player.Player;
 
 public interface Routine {
 

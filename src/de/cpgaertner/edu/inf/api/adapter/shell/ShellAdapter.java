@@ -1,6 +1,6 @@
-package de.cpgaertner.edu.inf.adapter.shell;
+package de.cpgaertner.edu.inf.api.adapter.shell;
 
-import de.cpgaertner.edu.inf.adapter.Adapter;
+import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import lombok.Getter;
 
 import java.io.BufferedReader;

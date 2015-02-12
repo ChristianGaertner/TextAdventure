@@ -1,7 +1,7 @@
-package de.cpgaertner.edu.inf.level.player;
+package de.cpgaertner.edu.inf.api.level.player;
 
-import de.cpgaertner.edu.inf.level.Item;
-import de.cpgaertner.edu.inf.level.Location;
+import de.cpgaertner.edu.inf.api.level.Item;
+import de.cpgaertner.edu.inf.api.level.Location;
 
 import java.util.Map;
 
