@@ -3,7 +3,17 @@ package de.cpgaertner.edu.inf.level.player;
 import de.cpgaertner.edu.inf.level.Item;
 import de.cpgaertner.edu.inf.level.Location;
 
+import java.util.Map;
+
 public interface Player {
+
+    public Object getMetaData(String key);
+
+    public void setMetaData(String key, Object data);
+
+    public Map<String, Object> getMetaData();
+
+    public void setMetaData(Map<String, Object> data);
 
     public String getName();
 
