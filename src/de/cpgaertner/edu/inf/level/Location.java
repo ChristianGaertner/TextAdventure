@@ -13,6 +13,13 @@ public interface Location {
     public Location getEast();
 
     /**
+     * Whether a Player can walk into this location,
+     * Hallways, etc. but not lockers, desks, etc.
+     * @return walkable
+     */
+    public boolean isWalkable();
+
+    /**
      * Return the LightLevel of the Location,
      *
      * this might be changed by the Level, Player Items, etc.
