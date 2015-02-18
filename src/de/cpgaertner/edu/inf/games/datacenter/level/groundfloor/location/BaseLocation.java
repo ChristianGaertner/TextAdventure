@@ -7,10 +7,10 @@ import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.Data;
 
 @Data
-public class HallwayLocation implements Location {
+public abstract class BaseLocation implements Location {
 
 
-    protected String name = "Flur";
+    protected String name;
 
     protected Location north;
     protected Location west;
