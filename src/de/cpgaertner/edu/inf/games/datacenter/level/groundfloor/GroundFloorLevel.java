@@ -2,9 +2,7 @@ package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor;
 
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.DoorLocation;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.OfficeLocation;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.WallLocation;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.*;
 import lombok.Getter;
 
 public class GroundFloorLevel implements Level {
@@ -28,15 +26,19 @@ public class GroundFloorLevel implements Level {
     public void init(Level from) {
 
         /*
-        Level is a 5x4 Grid (without the walls
+        Level is a 6x5 Grid (without the walls)
          */
 
 
         DoorLocation officeHallwayConnector = new DoorLocation();
         DoorLocation hallwayServerRoomConnector = new DoorLocation();
+        DoorLocation hallwayOutsideConnector = new DoorLocation();
+
+
+        StairsLocation stairs = new StairsLocation();
 
         generateOffice(officeHallwayConnector);
-        generateHallway(officeHallwayConnector, hallwayServerRoomConnector);
+        generateHallway(officeHallwayConnector, hallwayServerRoomConnector, hallwayOutsideConnector, stairs);
 
 
 
@@ -110,7 +112,58 @@ public class GroundFloorLevel implements Level {
         }
     }
 
-    protected void generateHallway(DoorLocation toOffice, DoorLocation toServerRoom) {
+    /**
+     * Generates and returns the start location
+     * @param toOffice office connector
+     * @param toServerRoom server room connector
+     * @param toOutside outside connector
+     * @param stairsLocation stairs to use
+     * @return Level Spawn
+     */
+    protected HallwayLocation generateHallway(DoorLocation toOffice, DoorLocation toServerRoom, DoorLocation toOutside, StairsLocation stairsLocation) {
 
+        HallwayLocation x0y4 = new HallwayLocation();
+        HallwayLocation x1y4 = new HallwayLocation();
+        HallwayLocation x2y4 = new HallwayLocation();
+        HallwayLocation x3y4 = new HallwayLocation();
+        HallwayLocation x4y4 = new HallwayLocation();
+
+        x0y4.setNorth(toOffice);
+        x3y4.setNorth(toServerRoom);
+        x3y4.setSouth(toOutside);
+
+        { // Walls
+            x0y4.setWest(new WallLocation());
+            x0y4.setSouth(new WallLocation());
+
+            x1y4.setNorth(new WallLocation());
+            x1y4.setSouth(new WallLocation());
+
+            x2y4.setNorth(new WallLocation());
+            x2y4.setSouth(new WallLocation());
+
+            x4y4.setNorth(new WallLocation());
+            x4y4.setSouth(new WallLocation());
+        }
+
+        { // Interconnection
+            x0y4.setEast(x1y4);
+
+            x1y4.setEast(x0y4);
+            x1y4.setWest(x2y4);
+
+            x2y4.setEast(x1y4);
+            x2y4.setWest(x3y4);
+
+            x3y4.setEast(x2y4);
+            x3y4.setWest(x4y4);
+
+            x4y4.setEast(x1y4);
+        }
+
+        x4y4.setWest(stairsLocation);
+
+
+        return x3y4;
     }
 }
