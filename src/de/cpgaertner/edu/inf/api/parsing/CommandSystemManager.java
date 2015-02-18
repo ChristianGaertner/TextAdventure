@@ -10,6 +10,8 @@ public interface CommandSystemManager {
 
     public void add(CommandParser commandParser);
 
-    public Command get(Adapter adapter) throws IOException;
+    public Command get(String prompt) throws IOException;
+
+    public Adapter getAdapter();
 
 }
