@@ -7,6 +7,7 @@ import lombok.Setter;
 
 public class StairsLocation extends BaseLocation {
 
-    @Getter @Setter protected Level destination;
+    @Getter @Setter protected Level up;
+    @Getter @Setter protected Level down;
 
 }

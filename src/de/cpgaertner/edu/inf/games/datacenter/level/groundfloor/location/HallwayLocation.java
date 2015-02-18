@@ -9,4 +9,8 @@ public class HallwayLocation extends BaseLocation {
         setRoutine(routine);
         setWalkable(true);
     }
+
+    public HallwayLocation() {
+        this(10);
+    }
 }
