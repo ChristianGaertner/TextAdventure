@@ -6,7 +6,7 @@ import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.Getter;
 
-public abstract class HallwayLocation implements Location {
+public class HallwayLocation implements Location {
 
 
     @Getter protected String name = "Flur";
