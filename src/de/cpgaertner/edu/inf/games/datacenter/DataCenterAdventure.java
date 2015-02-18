@@ -27,7 +27,7 @@ public class DataCenterAdventure implements Game {
     }
 
     @Override
-    public Routine getInitialRoutine(Adapter adapter) {
+    public Routine getInitialRoutine() {
         return new Routine() {
             @Override
             public void enter(Player player, Location location, Adapter adapter) throws IOException {

@@ -1,7 +1,5 @@
 package de.cpgaertner.edu.inf.api.level;
 
-import de.cpgaertner.edu.inf.api.adapter.Adapter;
-import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 
 public interface Location {
@@ -27,11 +25,9 @@ public interface Location {
     /**
      * Should return a Routine for this Location.
      * Null indicates a null interaction location
-     * @param player Player to engage in the Routine
-     * @param adapter The adapter to use for the Routine
      * @return The routine, not entered yet!
      */
-    public Routine getRoutine(Player player, Adapter adapter);
+    public Routine getRoutine();
 
     /**
      * Return the LightLevel of the Location,

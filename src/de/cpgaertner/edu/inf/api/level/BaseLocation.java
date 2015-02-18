@@ -1,5 +1,6 @@
 package de.cpgaertner.edu.inf.api.level;
 
+import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.Data;
 
 @Data
@@ -15,4 +16,6 @@ public abstract class BaseLocation implements Location {
     protected boolean walkable;
 
     protected int lightLevel;
+
+    protected Routine routine;
 }
