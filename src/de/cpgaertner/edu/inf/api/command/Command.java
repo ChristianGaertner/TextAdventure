@@ -51,7 +51,10 @@ public interface Command {
      *
      * Wraps {@link de.cpgaertner.edu.inf.api.adapter.Adapter#sendf}
      * @param msg message to send
+     * @param args args to replace
      * @throws IOException
+     *
+     * @see de.cpgaertner.edu.inf.api.adapter.Adapter#sendf
      */
     public void respondf(String msg, Object... args) throws IOException;
 }
