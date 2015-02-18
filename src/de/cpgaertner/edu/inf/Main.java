@@ -1,5 +1,6 @@
 package de.cpgaertner.edu.inf;
 
+import de.cpgaertner.edu.inf.api.CoreEngine;
 import de.cpgaertner.edu.inf.api.Game;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.adapter.shell.ShellAdapter;
@@ -17,10 +18,10 @@ public class Main {
         Adapter a = new ShellAdapter();
         a.init();
 
-        g.getInitialRoutine(a).enter(g.getPlayer(), g.getLevel().getStart(), a);
+        CoreEngine engine = new CoreEngine(g, a);
 
+        engine.run();
 
-        System.out.println(g.getPlayer());
 
 
 

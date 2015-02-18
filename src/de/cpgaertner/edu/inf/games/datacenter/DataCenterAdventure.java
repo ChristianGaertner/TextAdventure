@@ -31,6 +31,11 @@ public class DataCenterAdventure implements Game {
     public Routine getInitialRoutine() {
         return new Routine() {
             @Override
+            public String getPrompt() {
+                return ">>";
+            }
+
+            @Override
             public boolean handle(Player player, Location location, Command cmd, Adapter adapter) throws IOException {
 
                 /*

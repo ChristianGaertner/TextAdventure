@@ -9,6 +9,8 @@ import java.io.IOException;
 
 public interface Routine {
 
+    public String getPrompt();
+
     public boolean handle(Player player, Location location, Command cmd, Adapter adapter) throws IOException;
 
 }
