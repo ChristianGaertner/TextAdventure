@@ -4,21 +4,22 @@ import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.Routine;
-import lombok.Getter;
+import lombok.Data;
 
+@Data
 public class HallwayLocation implements Location {
 
 
-    @Getter protected String name = "Flur";
+    protected String name = "Flur";
 
-    @Getter protected Location north;
-    @Getter protected Location west;
-    @Getter protected Location south;
-    @Getter protected Location east;
+    protected Location north;
+    protected Location west;
+    protected Location south;
+    protected Location east;
 
-    @Getter protected boolean walkable;
+    protected boolean walkable;
 
-    @Getter protected int lightLevel;
+    protected int lightLevel;
 
     /**
      * Should return a Routine for this Location.
