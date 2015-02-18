@@ -2,7 +2,7 @@
 <!--
 ~ The MIT License (MIT)
 ~
-~ Copyright (c) 2014 Achtern (Christian Gärtner & Contributors)
+~ Copyright (c) 2015 Christian Gärtner
 ~
 ~ Permission is hereby granted, free of charge, to any person obtaining a copy
 ~ of this software and associated documentation files (the "Software"), to deal
@@ -28,11 +28,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.cpgaertner.edu.inf</groupId>
     <packaging>jar</packaging>
-    <name>ChatBot</name>
-    <artifactId>ChatBot</artifactId>
+    <name>TextAdventure</name>
+    <artifactId>TextAdventure</artifactId>
     <version>0.1-SNAPSHOT</version>
     <description>
-       Awesome Chatbot
+       A TextAdventure
     </description>
 
     <properties>
