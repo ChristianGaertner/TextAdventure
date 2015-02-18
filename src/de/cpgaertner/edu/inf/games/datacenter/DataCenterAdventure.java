@@ -3,6 +3,7 @@ package de.cpgaertner.edu.inf.games.datacenter;
 import de.cpgaertner.edu.inf.api.ExitRequestedException;
 import de.cpgaertner.edu.inf.api.Game;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
+import de.cpgaertner.edu.inf.api.command.Command;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.DefaultPlayer;
@@ -30,7 +31,13 @@ public class DataCenterAdventure implements Game {
     public Routine getInitialRoutine() {
         return new Routine() {
             @Override
-            public void enter(Player player, Location location, Adapter adapter) throws IOException {
+            public boolean handle(Player player, Location location, Command cmd, Adapter adapter) throws IOException {
+
+                /*
+                An initial routine should never receive a command!
+                 */
+                assert cmd == null;
+
                 adapter.sendf("Hallo. Willkommen beim Spiel %s.", getName());
                 adapter.send("Magst Du mir zunächst deinen Name verraten?");
 
@@ -66,6 +73,8 @@ public class DataCenterAdventure implements Game {
 
                 player.setLocation(location);
 
+                // This Routine cannot handle commands, give the handle back to the parent.
+                return false;
             }
         };
     }
