@@ -36,7 +36,7 @@ public class CoreEngine implements Runnable {
 
         try {
 
-            Command cmd;
+            Command cmd = null;
             CommandSystemManager csm = null;
 
 
@@ -44,14 +44,21 @@ public class CoreEngine implements Runnable {
 
                 // TODO clean up!
                 if (previousRoutine == null) {
-                    cmd = null;
-                    csm = activeRoutine.getCommandSystemManager(adapter);
-                    previousRoutine = activeRoutine;
 
+                    previousRoutine = activeRoutine;
+                    csm = activeRoutine.getCommandSystemManager(adapter);
                 } else {
+
+
+                    if (previousRoutine != activeRoutine) {
+
+                        csm = activeRoutine.getCommandSystemManager(adapter);
+
+                    }
 
                     // THIS BLOCKS until the user hits enter!
                     cmd = csm.get(activeRoutine.getPrompt());
+
                 }
 
                 boolean exit = !activeRoutine.handle(game.getPlayer(), game.getPlayer().getLocation(), cmd, adapter);
