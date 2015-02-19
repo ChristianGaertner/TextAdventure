@@ -13,6 +13,7 @@ import java.io.IOException;
 public class RootRoutine implements Routine {
 
 
+    protected CommandSystemManager csm;
 
     @Override
     public String getPrompt() {
@@ -21,8 +22,11 @@ public class RootRoutine implements Routine {
 
     @Override
     public CommandSystemManager getCommandSystemManager(Adapter adapter) {
-        // TODO do stuff about caching
-        CommandSystemManager csm = new BasicCommandSystemManager(adapter);
+
+        if (csm == null) {
+            csm = new BasicCommandSystemManager(adapter);
+        }
+
         return csm;
     }
 
