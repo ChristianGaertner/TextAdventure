@@ -8,6 +8,8 @@ import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.DefaultPlayer;
 import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
+import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import lombok.Getter;
@@ -33,6 +35,11 @@ public class DataCenterAdventure implements Game {
             @Override
             public String getPrompt() {
                 return ">>";
+            }
+
+            @Override
+            public CommandSystemManager getCommandSystemManager(Adapter adapter) {
+                return new BasicCommandSystemManager(adapter);
             }
 
             @Override

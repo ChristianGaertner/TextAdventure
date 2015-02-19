@@ -2,25 +2,18 @@ package de.cpgaertner.edu.inf.api;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
-import de.cpgaertner.edu.inf.api.parsing.CommandParser;
-import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
-import de.cpgaertner.edu.inf.api.parsing.LastHopeParser;
 import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CoreEngine implements Runnable {
 
 
     protected Game game;
     protected Adapter adapter;
-
-    @Getter protected CommandSystemManager cmdManager;
 
     @Getter @Setter protected boolean run;
 
@@ -35,8 +28,6 @@ public class CoreEngine implements Runnable {
         setRun(true);
 
         RootRoutine root = new RootRoutine();
-
-        cmdManager = new QuickCommandSystemManager(adapter);
         
         Routine activeRoutine = game.getInitialRoutine();
 
@@ -47,11 +38,13 @@ public class CoreEngine implements Runnable {
 
             while(isRun()) {
 
+                // TODO clean up!
                 if (boot) {
                     cmd = null;
                     boot = false;
                 } else {
-                    cmd = cmdManager.get(activeRoutine.getPrompt());
+
+                    cmd = activeRoutine.getCommandSystemManager(adapter).get(activeRoutine.getPrompt());
                 }
 
                 boolean exit = !activeRoutine.handle(game.getPlayer(), game.getPlayer().getLocation(), cmd, adapter);
@@ -63,41 +56,5 @@ public class CoreEngine implements Runnable {
             e.printStackTrace();
         }
 
-    }
-
-
-    //TMP!!
-    final class QuickCommandSystemManager implements CommandSystemManager {
-
-        final LastHopeParser lastHopeParser;
-        private List<CommandParser> cmdParser;
-        @Getter private Adapter adapter;
-
-        public QuickCommandSystemManager(Adapter adapter) {
-            lastHopeParser = new LastHopeParser();
-            this.adapter = adapter;
-            lastHopeParser.setAdapter(adapter);
-            cmdParser = new ArrayList<>();
-        }
-
-        @Override
-        public void add(CommandParser commandParser) {
-            cmdParser.add(commandParser);
-        }
-
-        @Override
-        public Command get(String prompt) throws IOException {
-            String input = adapter.read(prompt);
-
-            Command cmd;
-            for (CommandParser parser : cmdParser) {
-                cmd = parser.get(input);
-                if (cmd != null) {
-                    return cmd;
-                }
-            }
-
-            return lastHopeParser.get(input);
-        }
     }
 }

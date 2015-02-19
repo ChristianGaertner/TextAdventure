@@ -5,15 +5,25 @@ import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
+import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
 
 import java.io.IOException;
 
 public class RootRoutine implements Routine {
 
 
+
     @Override
     public String getPrompt() {
         return ">>";
+    }
+
+    @Override
+    public CommandSystemManager getCommandSystemManager(Adapter adapter) {
+        // TODO do stuff about caching
+        CommandSystemManager csm = new BasicCommandSystemManager(adapter);
+        return csm;
     }
 
     @Override
