@@ -2,6 +2,7 @@ package de.cpgaertner.edu.inf.api;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
+import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
 import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.Getter;
@@ -28,30 +29,40 @@ public class CoreEngine implements Runnable {
         setRun(true);
 
         RootRoutine root = new RootRoutine();
-        
+
+
+        Routine previousRoutine = null;
         Routine activeRoutine = game.getInitialRoutine();
 
         try {
-            boolean boot = true;
+
             Command cmd;
+            CommandSystemManager csm = null;
 
 
             while(isRun()) {
 
                 // TODO clean up!
-                if (boot) {
+                if (previousRoutine == null) {
                     cmd = null;
-                    boot = false;
+                    csm = activeRoutine.getCommandSystemManager(adapter);
+                    previousRoutine = activeRoutine;
+
                 } else {
 
-                    cmd = activeRoutine.getCommandSystemManager(adapter).get(activeRoutine.getPrompt());
+                    // THIS BLOCKS until the user hits enter!
+                    cmd = csm.get(activeRoutine.getPrompt());
                 }
 
                 boolean exit = !activeRoutine.handle(game.getPlayer(), game.getPlayer().getLocation(), cmd, adapter);
                 if (exit) {
+                    previousRoutine = activeRoutine;
                     activeRoutine = root;
                 }
             }
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
