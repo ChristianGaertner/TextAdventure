@@ -53,6 +53,7 @@ public class CoreEngine implements Runnable {
                     if (previousRoutine != activeRoutine) {
 
                         csm = activeRoutine.getCommandSystemManager(adapter);
+                        previousRoutine = activeRoutine; // reset it!
 
                     }
 
