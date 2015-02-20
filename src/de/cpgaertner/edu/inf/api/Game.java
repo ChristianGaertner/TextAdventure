@@ -10,7 +10,17 @@ public interface Game {
 
     public Player getPlayer();
 
+    /**
+     * Will run on boot
+     * @return boot routine
+     */
     public Routine getInitialRoutine();
+
+    /**
+     * Handles the game.
+     * @return main routine
+     */
+    public Routine getHostRoutine();
 
     public Level getLevel();
 

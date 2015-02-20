@@ -4,6 +4,7 @@ import de.cpgaertner.edu.inf.api.Game;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.player.DefaultPlayer;
 import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines.InitialRoutine;
@@ -25,6 +26,17 @@ public class DataCenterAdventure implements Game {
     @Override
     public Routine getInitialRoutine() {
         return new InitialRoutine(getName());
+    }
+
+    /**
+     * Handles the game.
+     *
+     * @return main routine
+     */
+    @Override
+    public Routine getHostRoutine() {
+        // TMP! Todo: create actual routine.
+        return new RootRoutine();
     }
 
     @Override
