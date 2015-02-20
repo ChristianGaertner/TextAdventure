@@ -39,4 +39,9 @@ public class GoCommandParser implements CommandParser {
 
         return new GoCommand(direction, adapter);
     }
+
+    @Override
+    public String getHelp() {
+        return "go [direction]: moves the player to another location. direction{north,east,south,west}";
+    }
 }

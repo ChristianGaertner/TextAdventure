@@ -1,11 +1,12 @@
 package de.cpgaertner.edu.inf.api.routine;
 
-import de.cpgaertner.edu.inf.api.ExitRequestedException;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
+import de.cpgaertner.edu.inf.api.command.exit.ExitCommandPackage;
 import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
+import de.cpgaertner.edu.inf.api.parsing.CommandParser;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
 
 import java.io.IOException;
@@ -22,6 +23,11 @@ public class RootRoutine implements Routine {
     public RootRoutine(CommandSystemManager csm) {
         this.csm = csm;
         this.cmdHandler = new HashMap<>();
+
+        /*
+        Add some default commands
+         */
+        addCommand(new ExitCommandPackage());
     }
 
     public RootRoutine(Adapter adapter) {
@@ -44,6 +50,7 @@ public class RootRoutine implements Routine {
 
     @SuppressWarnings("unchecked")
     public void addCommand(CommandPackage commandPackage) {
+        commandPackage.getParser().setAdapter(csm.getAdapter());
         csm.add(commandPackage.getParser());
         cmdHandler.put(commandPackage.getCommand(), commandPackage.getHandler());
     }
@@ -69,17 +76,17 @@ public class RootRoutine implements Routine {
                     "test: (no args) prints 'ok'\n" +
                     "exit: (no args) quits the game"
             );
+
+            for (CommandParser p : csm.getAll()) {
+                cmd.respond(p.getHelp());
+            }
+
             return true;
         }
 
         if (cmd.getName().equalsIgnoreCase("test")) {
             cmd.respond("ok");
             return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("exit")) {
-            cmd.respond("Exiting...");
-            throw new ExitRequestedException();
         }
 
         adapter.sendf("Unknow comand <%s>, try 'help' to get started", cmd.getName());

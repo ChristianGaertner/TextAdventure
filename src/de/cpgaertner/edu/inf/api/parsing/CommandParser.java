@@ -16,4 +16,6 @@ public interface CommandParser {
      */
     public Command get(String input);
 
+    public String getHelp();
+
 }

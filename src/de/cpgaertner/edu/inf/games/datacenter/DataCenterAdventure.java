@@ -9,9 +9,7 @@ import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
 import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.go.GoCommand;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.go.GoCommandHandler;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.go.GoCommandParser;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.go.GoCommandPackage;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines.InitialRoutine;
 import lombok.Getter;
 
@@ -40,11 +38,9 @@ public class DataCenterAdventure implements Game {
      */
     @Override
     public Routine getHostRoutine(Adapter adapter) {
+        RootRoutine r = new RootRoutine(new BasicCommandSystemManager(adapter));
 
-        BasicCommandSystemManager csm = new BasicCommandSystemManager(adapter);
-        csm.add(new GoCommandParser());
-        RootRoutine r = new RootRoutine(csm);
-        r.addCommandHandler(GoCommand.class, new GoCommandHandler());
+        r.addCommand(new GoCommandPackage());
 
         return r;
     }

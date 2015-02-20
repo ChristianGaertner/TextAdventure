@@ -25,4 +25,9 @@ public class LastHopeParser implements CommandParser {
 
         return new BasicCommand(words[0], Arrays.copyOfRange(words, 1, words.length), getAdapter());
     }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
 }

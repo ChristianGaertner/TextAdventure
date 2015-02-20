@@ -13,7 +13,7 @@ public class BasicCommandSystemManager implements CommandSystemManager {
     @Getter protected Adapter adapter;
 
     protected final LastHopeParser lastHopeParser;
-    private List<CommandParser> cmdParser;
+    protected List<CommandParser> cmdParser;
 
     public BasicCommandSystemManager(Adapter adapter) {
         this.lastHopeParser = new LastHopeParser();
@@ -42,5 +42,10 @@ public class BasicCommandSystemManager implements CommandSystemManager {
 
         return lastHopeParser.get(input);
 
+    }
+
+    @Override
+    public List<CommandParser> getAll() {
+        return cmdParser;
     }
 }
