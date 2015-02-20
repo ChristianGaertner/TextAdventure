@@ -3,6 +3,7 @@ package de.cpgaertner.edu.inf.api;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
+import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,9 @@ public class CoreEngine implements Runnable {
 
         Routine root = game.getHostRoutine();
 
+        if (root == null) {
+            root = new RootRoutine(); // Fallback
+        }
 
         Routine previousRoutine = null;
         Routine activeRoutine = game.getInitialRoutine();
