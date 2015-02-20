@@ -29,6 +29,7 @@ public class CoreEngine implements Runnable {
         TODO: remove this from here
          */
 
+        this.game.getLevel().init(null);
         this.game.getPlayer().setLocation(this.game.getLevel().getStart());
     }
 

@@ -38,7 +38,7 @@ public class GroundFloorLevel implements Level {
         StairsLocation stairs = new StairsLocation();
 
         generateOffice(officeHallwayConnector);
-        generateHallway(officeHallwayConnector, hallwayServerRoomConnector, hallwayOutsideConnector, stairs);
+        this.start = generateHallway(officeHallwayConnector, hallwayServerRoomConnector, hallwayOutsideConnector, stairs);
 
 
 
