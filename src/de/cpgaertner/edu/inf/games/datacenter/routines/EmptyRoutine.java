@@ -1,4 +1,4 @@
-package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines;
+package de.cpgaertner.edu.inf.games.datacenter.routines;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;

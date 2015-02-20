@@ -1,4 +1,4 @@
-package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.look;
+package de.cpgaertner.edu.inf.games.datacenter.command.look;
 
 import de.cpgaertner.edu.inf.api.routine.CommandPackage;
 import lombok.Data;

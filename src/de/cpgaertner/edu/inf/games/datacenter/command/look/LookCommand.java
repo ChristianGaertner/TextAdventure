@@ -1,8 +1,8 @@
-package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.look;
+package de.cpgaertner.edu.inf.games.datacenter.command.look;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.level.Location;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.go.GoCommand;
+import de.cpgaertner.edu.inf.games.datacenter.command.go.GoCommand;
 
 public class LookCommand extends GoCommand {
 

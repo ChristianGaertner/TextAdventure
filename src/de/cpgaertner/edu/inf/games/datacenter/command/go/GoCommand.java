@@ -1,4 +1,4 @@
-package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.go;
+package de.cpgaertner.edu.inf.games.datacenter.command.go;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.BasicCommand;
