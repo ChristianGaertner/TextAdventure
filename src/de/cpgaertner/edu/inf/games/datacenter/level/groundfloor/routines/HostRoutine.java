@@ -23,6 +23,10 @@ public class HostRoutine extends RootRoutine {
         super(adapter);
     }
 
+    public <T extends Command> void addCommandHandler(Class<T> cls, CommandHandler<T> handler) {
+        cmdHandler.put(cls, handler);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
