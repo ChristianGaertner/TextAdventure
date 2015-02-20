@@ -26,8 +26,8 @@ public interface Level {
     public void close();
 
     /**
-     * Return the initial Location
+     * Return the initial position
      * @return initial location
      */
-    public Location getStart();
+    public Coordinate getStart();
 }

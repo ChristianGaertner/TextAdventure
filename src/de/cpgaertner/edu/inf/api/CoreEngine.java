@@ -30,6 +30,8 @@ public class CoreEngine implements Runnable {
          */
 
         this.game.getLevel().init(null);
+        this.game.getPlayer().setLevel(this.game.getLevel());
+        this.game.getPlayer().setPosition(this.game.getLevel().getStart());
     }
 
     @Override
