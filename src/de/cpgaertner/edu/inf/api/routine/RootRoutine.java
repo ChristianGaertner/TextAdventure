@@ -3,6 +3,7 @@ package de.cpgaertner.edu.inf.api.routine;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
 import de.cpgaertner.edu.inf.api.command.examples.exit.ExitCommandPackage;
+import de.cpgaertner.edu.inf.api.command.examples.test.TestCommandPackage;
 import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
@@ -28,6 +29,7 @@ public class RootRoutine implements Routine {
         Add some default commands
          */
         addCommand(new ExitCommandPackage());
+        addCommand(new TestCommandPackage());
     }
 
     public RootRoutine(Adapter adapter) {
@@ -71,21 +73,11 @@ public class RootRoutine implements Routine {
         }
 
         if (cmd.getName().equalsIgnoreCase("help")) {
-            cmd.respond(
-                    "help: (no args) this help display\n" +
-                    "test: (no args) prints 'ok'\n" +
-                    "exit: (no args) quits the game"
-            );
-
+            cmd.respond("help: (no args) this help display\n");
             for (CommandParser p : csm.getAll()) {
                 cmd.respond(p.getHelp());
             }
 
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("test")) {
-            cmd.respond("ok");
             return true;
         }
 
