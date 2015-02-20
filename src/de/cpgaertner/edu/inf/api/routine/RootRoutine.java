@@ -43,6 +43,12 @@ public class RootRoutine implements Routine {
     }
 
     @SuppressWarnings("unchecked")
+    public void addCommand(CommandPackage commandPackage) {
+        csm.add(commandPackage.getParser());
+        cmdHandler.put(commandPackage.getCommand(), commandPackage.getHandler());
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
