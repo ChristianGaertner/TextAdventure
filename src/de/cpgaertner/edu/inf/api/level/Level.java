@@ -17,6 +17,9 @@ public interface Level {
      */
     public void init(Level from);
 
+
+    public Location getAt(Coordinate coordinate);
+
     /**
      * Close the level aka. the Player leaves the level
      */

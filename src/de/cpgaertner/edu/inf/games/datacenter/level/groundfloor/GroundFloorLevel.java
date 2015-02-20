@@ -1,5 +1,6 @@
 package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor;
 
+import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.*;
@@ -12,6 +13,8 @@ public class GroundFloorLevel implements Level {
 
     @Getter protected Location start;
 
+
+    protected Location[][] locations;
 
 
     /**
@@ -42,6 +45,11 @@ public class GroundFloorLevel implements Level {
 
 
 
+    }
+
+    @Override
+    public Location getAt(Coordinate coordinate) {
+        return locations[coordinate.getX()][coordinate.getY()];
     }
 
     /**

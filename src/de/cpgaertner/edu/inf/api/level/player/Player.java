@@ -1,7 +1,8 @@
 package de.cpgaertner.edu.inf.api.level.player;
 
+import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Item;
-import de.cpgaertner.edu.inf.api.level.Location;
+import de.cpgaertner.edu.inf.api.level.Level;
 
 import java.util.Map;
 
@@ -19,11 +20,15 @@ public interface Player {
 
     public void setName(String name);
 
-    public Location getLocation();
+    public Coordinate getPosition();
 
-    public void setLocation(Location location);
+    public void setPosition(Coordinate coordinate);
 
     public Inventory getInventory();
+
+    public Level getLevel();
+
+    public void setLevel(Level level);
 
     /**
      * Might be null, if hand is empty

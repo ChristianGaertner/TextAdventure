@@ -1,7 +1,7 @@
 package de.cpgaertner.edu.inf.games.datacenter.command.go;
 
 import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;
-import de.cpgaertner.edu.inf.api.level.Location;
+import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 
 import java.io.IOException;
@@ -13,10 +13,10 @@ public class GoCommandHandler implements CommandHandler<GoCommand> {
         assert cmd != null;
 
 
-        Location newLoc = player.getLocation().get(cmd.getDirection());
+        Coordinate newPos = player.getPosition().get(cmd.getDirection());
 
-        if (newLoc.isWalkable()) {
-            player.setLocation(newLoc);
+        if (player.getLevel().getAt(newPos).isWalkable()) {
+            player.setPosition(newPos);
         } else {
             cmd.respondf("You cannot walk into the location in the %s", cmd.getDirection());
         }

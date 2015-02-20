@@ -1,7 +1,8 @@
 package de.cpgaertner.edu.inf.api.level.player;
 
+import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Item;
-import de.cpgaertner.edu.inf.api.level.Location;
+import de.cpgaertner.edu.inf.api.level.Level;
 import lombok.Data;
 
 import java.util.Map;
@@ -13,7 +14,9 @@ public class DefaultPlayer implements Player {
 
     protected String name;
 
-    protected Location location;
+    protected Level level;
+
+    protected Coordinate position;
 
     protected Inventory inventory;
 
