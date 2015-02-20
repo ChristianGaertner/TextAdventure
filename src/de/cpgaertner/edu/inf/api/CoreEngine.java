@@ -7,9 +7,11 @@ import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.java.Log;
 
 import java.io.IOException;
 
+@Log
 public class CoreEngine implements Runnable {
 
 
@@ -68,6 +70,11 @@ public class CoreEngine implements Runnable {
                 boolean exit = !activeRoutine.handle(game.getPlayer(), game.getPlayer().getLocation(), cmd, adapter);
                 if (exit) {
                     previousRoutine = activeRoutine;
+                    if (activeRoutine == root) {
+                        // This would be an infinite loop
+                        log.warning("Infinite Loop detected. Host Routine, declines action. Falling back to RootRoutine");
+                        root = new RootRoutine();
+                    }
                     activeRoutine = root;
                 }
             }
