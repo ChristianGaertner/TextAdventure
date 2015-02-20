@@ -15,18 +15,21 @@ public class RootRoutine implements Routine {
 
     protected CommandSystemManager csm;
 
+    public RootRoutine(CommandSystemManager csm) {
+        this.csm = csm;
+    }
+
+    public RootRoutine(Adapter adapter) {
+        this(new BasicCommandSystemManager(adapter));
+    }
+
     @Override
     public String getPrompt() {
         return ">>";
     }
 
     @Override
-    public CommandSystemManager getCommandSystemManager(Adapter adapter) {
-
-        if (csm == null) {
-            csm = new BasicCommandSystemManager(adapter);
-        }
-
+    public CommandSystemManager getCommandSystemManager() {
         return csm;
     }
 

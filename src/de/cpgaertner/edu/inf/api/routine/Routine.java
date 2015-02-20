@@ -12,7 +12,7 @@ public interface Routine {
 
     public String getPrompt();
 
-    public CommandSystemManager getCommandSystemManager(Adapter adapter);
+    public CommandSystemManager getCommandSystemManager();
 
     public boolean handle(Player player, Location location, Command cmd, Adapter adapter) throws IOException;
 }

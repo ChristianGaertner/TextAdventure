@@ -8,24 +8,24 @@ import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
 import de.cpgaertner.edu.inf.api.routine.Routine;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.io.IOException;
 
-@AllArgsConstructor
 public class InitialRoutine implements Routine {
 
     @Getter protected String name;
 
-    @Override
-    public String getPrompt() {
-        return ">>";
+    @Getter protected CommandSystemManager commandSystemManager;
+
+    public InitialRoutine(String name, Adapter adapter) {
+        this.name = name;
+        this.commandSystemManager = new BasicCommandSystemManager(adapter);
     }
 
     @Override
-    public CommandSystemManager getCommandSystemManager(Adapter adapter) {
-        return new BasicCommandSystemManager(adapter);
+    public String getPrompt() {
+        return ">>";
     }
 
     @Override

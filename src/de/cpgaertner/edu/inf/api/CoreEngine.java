@@ -30,14 +30,14 @@ public class CoreEngine implements Runnable {
 
         setRun(true);
 
-        Routine root = game.getHostRoutine();
+        Routine root = game.getHostRoutine(adapter);
 
         if (root == null) {
-            root = new RootRoutine(); // Fallback
+            root = new RootRoutine(adapter); // Fallback
         }
 
         Routine previousRoutine = null;
-        Routine activeRoutine = game.getInitialRoutine();
+        Routine activeRoutine = game.getInitialRoutine(adapter);
 
         try {
 
@@ -51,13 +51,13 @@ public class CoreEngine implements Runnable {
                 if (previousRoutine == null) {
 
                     previousRoutine = activeRoutine;
-                    csm = activeRoutine.getCommandSystemManager(adapter);
+                    csm = activeRoutine.getCommandSystemManager();
                 } else {
 
 
                     if (previousRoutine != activeRoutine) {
 
-                        csm = activeRoutine.getCommandSystemManager(adapter);
+                        csm = activeRoutine.getCommandSystemManager();
                         previousRoutine = activeRoutine; // reset it!
 
                     }
@@ -73,7 +73,7 @@ public class CoreEngine implements Runnable {
                     if (activeRoutine == root) {
                         // This would be an infinite loop
                         log.warning("Infinite Loop detected. Host Routine, declines action. Falling back to RootRoutine");
-                        root = new RootRoutine();
+                        root = new RootRoutine(adapter);
                     }
                     activeRoutine = root;
                 }

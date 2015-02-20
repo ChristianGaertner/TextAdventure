@@ -7,13 +7,17 @@ import lombok.Getter;
 
 public class GoCommand extends BasicCommand {
 
-    @Getter protected final String name = "go";
+    public static final String NAME = "go";
 
-    public GoCommand(String name, String[] args, Adapter adapter) {
-        super(name, args, adapter);
+    @Getter protected Location.Direction direction;
+
+    public GoCommand(Location.Direction direction, Adapter adapter) {
+        super(NAME, new String[]{direction.toString()}, adapter);
+        this.direction = direction;
     }
 
-    public Location.Direction getDirection() {
-        return Location.Direction.valueOf(getArgs()[0]);
+    @Override
+    public String getName() {
+        return NAME;
     }
 }
