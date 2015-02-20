@@ -10,7 +10,7 @@ import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.go.GoCommandPackage;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines.InitialRoutine;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines.EmptyRoutine;
 import lombok.Getter;
 
 public class DataCenterAdventure implements Game {
@@ -28,7 +28,8 @@ public class DataCenterAdventure implements Game {
 
     @Override
     public Routine getInitialRoutine(Adapter adapter) {
-        return new InitialRoutine(getName(), adapter);
+        return new EmptyRoutine();
+        // return new InitialRoutine(getName(), adapter);
     }
 
     /**
