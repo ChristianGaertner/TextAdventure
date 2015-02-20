@@ -3,7 +3,6 @@ package de.cpgaertner.edu.inf.api.routine;
 import de.cpgaertner.edu.inf.api.ExitRequestedException;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
-import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
@@ -34,7 +33,7 @@ public class RootRoutine implements Routine {
     }
 
     @Override
-    public boolean handle(Player player, Location location, Command cmd, Adapter adapter) throws IOException {
+    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
         if (cmd == null) {
             adapter.send("Type something, try 'help' to get started!");

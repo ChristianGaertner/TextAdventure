@@ -22,7 +22,7 @@ public class HostRoutine extends RootRoutine {
     }
 
     @Override
-    public boolean handle(Player player, Location location, Command cmd, Adapter adapter) throws IOException {
+    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
         if (cmd == null) return true;
 

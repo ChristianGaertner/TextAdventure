@@ -23,6 +23,13 @@ public class CoreEngine implements Runnable {
     public CoreEngine(Game game, Adapter adapter) {
         this.game = game;
         this.adapter = adapter;
+
+        /*
+        Do some bootstrap stuff
+        TODO: remove this from here
+         */
+
+        this.game.getPlayer().setLocation(this.game.getLevel().getStart());
     }
 
     @Override
@@ -67,7 +74,7 @@ public class CoreEngine implements Runnable {
 
                 }
 
-                boolean exit = !activeRoutine.handle(game.getPlayer(), game.getPlayer().getLocation(), cmd, adapter);
+                boolean exit = !activeRoutine.handle(game.getPlayer(), cmd, adapter);
                 if (exit) {
                     previousRoutine = activeRoutine;
                     if (activeRoutine == root) {

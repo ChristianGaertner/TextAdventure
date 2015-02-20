@@ -3,7 +3,6 @@ package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines;
 import de.cpgaertner.edu.inf.api.ExitRequestedException;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
-import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
@@ -29,11 +28,11 @@ public class InitialRoutine implements Routine {
     }
 
     @Override
-    public boolean handle(Player player, Location location, Command cmd, Adapter adapter) throws IOException {
+    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
-                /*
-                An initial routine should never receive a command!
-                 */
+        /*
+        An initial routine should never receive a command!
+         */
         assert cmd == null;
 
         adapter.sendf("Hallo. Willkommen beim Spiel %s.", getName());
@@ -64,12 +63,6 @@ public class InitialRoutine implements Routine {
         adapter.send("Super. Das ist Klasse. Am Besten du schaust erstmal im Kontroll Raum vorbei, " +
                 "der ist links im Gang die erste Tür rechts!");
 
-
-                /*
-                Just set a few properties of the Player
-                 */
-
-        player.setLocation(location);
 
         // This Routine cannot handle commands, give the handle back to the parent.
         return false;

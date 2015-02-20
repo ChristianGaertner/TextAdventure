@@ -2,7 +2,6 @@ package de.cpgaertner.edu.inf.api.routine;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
-import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
 
@@ -14,5 +13,5 @@ public interface Routine {
 
     public CommandSystemManager getCommandSystemManager();
 
-    public boolean handle(Player player, Location location, Command cmd, Adapter adapter) throws IOException;
+    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException;
 }
