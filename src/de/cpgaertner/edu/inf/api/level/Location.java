@@ -4,7 +4,13 @@ import de.cpgaertner.edu.inf.api.routine.Routine;
 
 public interface Location {
 
+    public enum Direction {
+        NORTH, EAST, SOUTH, WEST
+    }
+
     public String getName();
+
+    public Location get(Direction direction);
 
     public Location getNorth();
 

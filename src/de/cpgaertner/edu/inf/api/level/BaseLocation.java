@@ -18,4 +18,21 @@ public abstract class BaseLocation implements Location {
     protected int lightLevel;
 
     protected Routine routine;
+
+
+    @Override
+    public Location get(Direction direction) {
+        switch (direction) {
+            case NORTH:
+                return getNorth();
+            case EAST:
+                return getEast();
+            case SOUTH:
+                return getSouth();
+            case WEST:
+                return getWest();
+            default:
+                throw new IllegalArgumentException("No such direction");
+        }
+    }
 }
