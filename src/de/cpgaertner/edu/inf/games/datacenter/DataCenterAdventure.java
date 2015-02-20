@@ -10,6 +10,7 @@ import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.go.GoCommandPackage;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.look.LookCommandPackage;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines.EmptyRoutine;
 import lombok.Getter;
 
@@ -42,6 +43,7 @@ public class DataCenterAdventure implements Game {
         RootRoutine r = new RootRoutine(new BasicCommandSystemManager(adapter));
 
         r.addCommand(new GoCommandPackage());
+        r.addCommand(new LookCommandPackage());
 
         return r;
     }
