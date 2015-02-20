@@ -1,4 +1,4 @@
-package de.cpgaertner.edu.inf.api.command.exit;
+package de.cpgaertner.edu.inf.api.command.examples.exit;
 
 import de.cpgaertner.edu.inf.api.ExitRequestedException;
 import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;

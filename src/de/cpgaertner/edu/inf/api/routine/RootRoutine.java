@@ -2,7 +2,7 @@ package de.cpgaertner.edu.inf.api.routine;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
-import de.cpgaertner.edu.inf.api.command.exit.ExitCommandPackage;
+import de.cpgaertner.edu.inf.api.command.examples.exit.ExitCommandPackage;
 import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
