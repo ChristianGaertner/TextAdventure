@@ -6,10 +6,10 @@ import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.player.DefaultPlayer;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
+import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.command.GoCommandParser;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines.HostRoutine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.routines.InitialRoutine;
 import lombok.Getter;
 
@@ -42,7 +42,7 @@ public class DataCenterAdventure implements Game {
         BasicCommandSystemManager csm = new BasicCommandSystemManager(adapter);
         csm.add(new GoCommandParser());
 
-        return new HostRoutine(csm);
+        return new RootRoutine(csm);
     }
 
     @Override
