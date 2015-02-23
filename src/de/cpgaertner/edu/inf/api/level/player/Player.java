@@ -3,6 +3,7 @@ package de.cpgaertner.edu.inf.api.level.player;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Item;
 import de.cpgaertner.edu.inf.api.level.Level;
+import de.cpgaertner.edu.inf.api.level.Location;
 
 import java.util.Map;
 
@@ -29,6 +30,14 @@ public interface Player {
     public Level getLevel();
 
     public void setLevel(Level level);
+
+    /**
+     * Wrapper for
+     * <code>player.getLevel().getAt(player.getPosition().get(direction))</code>
+     * @param direction direction of interest
+     * @return location in that direction, relative to the player
+     */
+    public Location get(Location.Direction direction);
 
     /**
      * Might be null, if hand is empty

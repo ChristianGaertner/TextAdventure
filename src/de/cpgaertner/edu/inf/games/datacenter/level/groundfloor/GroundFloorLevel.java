@@ -3,6 +3,7 @@ package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.HallwayLocation;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.OfficeLocation;
 import lombok.Getter;
 
@@ -45,11 +46,11 @@ public class GroundFloorLevel implements Level {
         locations[1][4] = new OfficeLocation();
 
         // Hallway
-        locations[0][4] = new OfficeLocation();
-        locations[1][4] = new OfficeLocation();
-        locations[2][4] = new OfficeLocation();
-        locations[3][4] = new OfficeLocation();
-        locations[4][4] = new OfficeLocation();
+        locations[0][4] = new HallwayLocation();
+        locations[1][4] = new HallwayLocation();
+        locations[2][4] = new HallwayLocation();
+        locations[3][4] = new HallwayLocation();
+        locations[4][4] = new HallwayLocation();
 
     }
 
