@@ -5,6 +5,8 @@ import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.HallwayLocation;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.OfficeLocation;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRoomLocation;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.StairsLocation;
 import lombok.Getter;
 
 public class GroundFloorLevel implements Level {
@@ -32,25 +34,17 @@ public class GroundFloorLevel implements Level {
 
         locations = new Location[6][5];
 
-        // Office
-        locations[0][0] = new OfficeLocation();
-        locations[0][1] = new OfficeLocation();
-        locations[0][2] = new OfficeLocation();
-        locations[0][3] = new OfficeLocation();
-        locations[0][4] = new OfficeLocation();
+        try {
+            generate(OfficeLocation.class, 0, 1, 0, 3);
+            generate(HallwayLocation.class, 0, 4, 4, 4);
+            generate(ServerRoomLocation.class, 2, 5, 0, 3);
 
-        locations[1][0] = new OfficeLocation();
-        locations[1][1] = new OfficeLocation();
-        locations[1][2] = new OfficeLocation();
-        locations[1][3] = new OfficeLocation();
-        locations[1][4] = new OfficeLocation();
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
 
-        // Hallway
-        locations[0][4] = new HallwayLocation();
-        locations[1][4] = new HallwayLocation();
-        locations[2][4] = new HallwayLocation();
-        locations[3][4] = new HallwayLocation();
-        locations[4][4] = new HallwayLocation();
+        // Stairs
+        locations[5][4] = new StairsLocation();
 
     }
 
@@ -65,5 +59,13 @@ public class GroundFloorLevel implements Level {
     @Override
     public void close() {
 
+    }
+
+    protected void generate(Class<? extends Location> type, int x1, int y1, int x2, int y2) throws IllegalAccessException, InstantiationException {
+        for (int x = x1; x <= x2; x++) {
+            for (int y = y1; y <= y2; y++) {
+                locations[x][y] = type.newInstance();
+            }
+        }
     }
 }
