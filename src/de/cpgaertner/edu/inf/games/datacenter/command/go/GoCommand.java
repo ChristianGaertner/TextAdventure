@@ -15,9 +15,4 @@ public class GoCommand extends BasicCommand {
         super(NAME, new String[]{direction.toString()}, adapter);
         this.direction = direction;
     }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
 }

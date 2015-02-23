@@ -11,9 +11,4 @@ public class ExitCommand extends BasicCommand {
         super(NAME, null, adapter);
     }
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
 }

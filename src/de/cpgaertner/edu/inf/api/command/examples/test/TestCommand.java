@@ -10,10 +10,4 @@ public class TestCommand extends BasicCommand {
     public TestCommand(Adapter adapter) {
         super(NAME, null, adapter);
     }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
 }
