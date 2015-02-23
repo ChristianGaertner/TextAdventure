@@ -16,7 +16,7 @@ public class LookCommandHandler implements CommandHandler<LookCommand> {
         Location.Direction dir = cmd.getDirection();
 
         cmd.respondf("In the %s there is a %s.", dir, player.get(dir).getClass().getSimpleName());
-        cmd.respondf("This would be the Location at (%s/%s).", player.getPosition().getX(), player.getPosition().getY());
+        cmd.respondf("This would be the Location at %s.", player.getPosition().get(dir));
 
     }
 }
