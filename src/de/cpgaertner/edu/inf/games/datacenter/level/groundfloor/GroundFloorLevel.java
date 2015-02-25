@@ -65,6 +65,19 @@ public class GroundFloorLevel implements Level {
         stairs.setRoutine(new StairsLocation.DefaultRoutine(stairs));
 
         locations[5][4] = stairs;
+
+
+        // Doors
+        DoorLocation officeHallway = new DoorLocation();
+        DoorLocation hallwayServer = new DoorLocation();
+
+
+        locations[0][3].setSouth(officeHallway);
+        locations[0][4].setNorth(officeHallway);
+
+        locations[3][3].setSouth(hallwayServer);
+        locations[3][4].setNorth(hallwayServer);
+
     }
 
     @Override
@@ -80,7 +93,7 @@ public class GroundFloorLevel implements Level {
 
     }
 
-    protected void generate(LocationFactory factory, int x1, int y1, int x2, int y2) {
+    protected void generate(LocationFactory factory, int x1, int x2, int y1, int y2) {
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
                 locations[x][y] = factory.generate(new Coordinate(x, y));
