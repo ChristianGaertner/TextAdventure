@@ -74,8 +74,8 @@ public class DoorLocation extends BaseLocation {
 
 
         protected void openDoorRoutine(Player player, Adapter adapter) throws IOException {
-            switch (askQuestion("Do you want to lock it?", "yes", "no", adapter)) {
-                case ONE:
+            switch (askYesNoQuestion(("Do you want to lock it?", adapter)) {
+                case YES:
                     Key key = null;
                     try {
                         key = door.generateKey(false);
@@ -92,7 +92,7 @@ public class DoorLocation extends BaseLocation {
                         e.printStackTrace();
                     }
                     break;
-                case TWO: /* falls through */
+                case NO: /* falls through */
                 default:
                     adapter.send("Ok, then go ahead!");
             }
@@ -100,8 +100,8 @@ public class DoorLocation extends BaseLocation {
 
         protected void lockDoorRoutine(Player player, Adapter adapter) throws IOException {
 
-            switch (askQuestion("Do you want to open it?", "yes", "no", adapter)) {
-                case ONE:
+            switch (askYesNoQuestion("Do you want to open it?", adapter)) {
+                case YES:
                     adapter.send("Please choose a key!");
                     if (player.getInventory().isEmpty()) {
                         adapter.send("Looks like your inventory is empty. Then you cannot open this door, find the key first!");
@@ -137,7 +137,7 @@ public class DoorLocation extends BaseLocation {
                     }
 
                     break;
-                case TWO: /* falls through */
+                case NO: /* falls through */
                 default:
                     adapter.send("Ok, then go ahead!");
 

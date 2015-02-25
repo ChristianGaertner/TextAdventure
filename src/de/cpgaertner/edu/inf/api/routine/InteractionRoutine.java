@@ -11,6 +11,10 @@ public abstract class InteractionRoutine implements Routine {
         ONE, TWO, ABORT
     }
 
+    public enum YesNoAnswer {
+        YES, NO, ABORT
+    }
+
     @Override
     public String getPrompt() {
         return null;
@@ -19,6 +23,19 @@ public abstract class InteractionRoutine implements Routine {
     @Override
     public CommandSystemManager getCommandSystemManager() {
         return null;
+    }
+
+    protected YesNoAnswer askYesNoQuestion(String question, Adapter adapter) throws IOException {
+        switch (askQuestion(question, "yes", "no", adapter)) {
+            case ONE:
+                return YesNoAnswer.YES;
+            case TWO:
+                return YesNoAnswer.NO;
+            case ABORT:
+                return YesNoAnswer.ABORT;
+            default:
+                throw new IllegalStateException();
+        }
     }
 
     protected Answer askQuestion(String question, String answer1, String answer2, Adapter adapter) throws IOException {
