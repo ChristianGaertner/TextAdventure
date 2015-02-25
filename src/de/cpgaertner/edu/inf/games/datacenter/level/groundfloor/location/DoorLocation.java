@@ -74,7 +74,7 @@ public class DoorLocation extends BaseLocation {
 
 
         protected void openDoorRoutine(Player player, Adapter adapter) throws IOException {
-            switch (askYesNoQuestion(("Do you want to lock it?", adapter)) {
+            switch (askYesNoQuestion("Do you want to lock it?", adapter)) {
                 case YES:
                     Key key = null;
                     try {
