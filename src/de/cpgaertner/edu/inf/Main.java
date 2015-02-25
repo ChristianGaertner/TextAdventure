@@ -12,6 +12,13 @@ import java.io.IOException;
 @Log
 public class Main {
 
+    public static final boolean DEBUG = isDebug();
+
+    private static boolean isDebug() {
+        return System.getenv("debug") != null;
+    }
+
+
     public static void main(String[] args) throws IOException {
 
         Game g = new DataCenterAdventure();

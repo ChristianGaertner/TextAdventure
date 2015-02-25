@@ -1,5 +1,6 @@
 package de.cpgaertner.edu.inf.games.datacenter;
 
+import de.cpgaertner.edu.inf.Main;
 import de.cpgaertner.edu.inf.api.Game;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.level.Level;
@@ -9,12 +10,13 @@ import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
 import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.command.debug.force_open_all.ForceOpenAllCommandPackage;
-import de.cpgaertner.edu.inf.games.datacenter.command.position.PositionCommandPackage;
-import de.cpgaertner.edu.inf.games.datacenter.command.interact.InteractCommandPackage;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import de.cpgaertner.edu.inf.games.datacenter.command.go.GoCommandPackage;
+import de.cpgaertner.edu.inf.games.datacenter.command.interact.InteractCommandPackage;
 import de.cpgaertner.edu.inf.games.datacenter.command.look.LookCommandPackage;
+import de.cpgaertner.edu.inf.games.datacenter.command.position.PositionCommandPackage;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import de.cpgaertner.edu.inf.games.datacenter.routines.EmptyRoutine;
+import de.cpgaertner.edu.inf.games.datacenter.routines.InitialRoutine;
 import lombok.Getter;
 
 public class DataCenterAdventure implements Game {
@@ -32,8 +34,11 @@ public class DataCenterAdventure implements Game {
 
     @Override
     public Routine getInitialRoutine(Adapter adapter) {
-        return new EmptyRoutine();
-        // return new InitialRoutine(getName(), adapter);
+        if (Main.DEBUG) {
+            return new EmptyRoutine();
+        } else {
+            return new InitialRoutine(getName(), adapter);
+        }
     }
 
     /**
@@ -50,7 +55,9 @@ public class DataCenterAdventure implements Game {
         r.addCommand(new PositionCommandPackage());
         r.addCommand(new InteractCommandPackage());
 
-        r.addCommand(new ForceOpenAllCommandPackage());
+        if (Main.DEBUG) {
+            r.addCommand(new ForceOpenAllCommandPackage());
+        }
 
         return r;
     }
