@@ -13,10 +13,24 @@ public class LookCommandHandler implements CommandHandler<LookCommand> {
         assert cmd != null;
 
 
+        boolean inLocation = true;
         Location.Direction dir = cmd.getDirection();
 
-        cmd.respondf("In the %s there is a %s.", dir, player.get(dir).getClass().getSimpleName());
-        cmd.respondf("This would be the Location at %s.", player.getPosition().get(dir));
+        // First check the sides of the location itself
+        Location loc = player.getLevel().getAt(player.getPosition()).get(dir);
+
+        if (loc == null) {
+            // if there is now, get the next tile
+            loc = player.get(dir);
+            inLocation = false;
+        }
+
+        cmd.respondf("In the %s there is a %s.", dir, loc.getClass().getSimpleName());
+        if (inLocation) {
+            cmd.respond("This is part of your current location.");
+        } else {
+            cmd.respondf("This would be the Location at %s.", player.getPosition().get(dir));
+        }
 
     }
 }
