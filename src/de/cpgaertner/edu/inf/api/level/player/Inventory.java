@@ -38,4 +38,21 @@ public class Inventory {
         getItems().clear();
     }
 
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        for (Map.Entry<Integer, Item> entry : getItems().entrySet()) {
+            builder
+                    .append(entry.getKey())
+                    .append(": ")
+                    .append(entry.getValue().getName())
+                    .append(" (")
+                    .append(entry.getValue().getClass().getSimpleName())
+                    .append(")\n");
+        }
+
+        return builder.toString();
+    }
 }
