@@ -70,6 +70,9 @@ public class GroundFloorLevel implements Level {
         DoorLocation officeHallway = new DoorLocation().useDefaultRoutine();
         DoorLocation hallwayServer = new DoorLocation().useDefaultRoutine();
 
+        // This door should be open at launch.
+        officeHallway.forceOpen();
+
 
         locations[0][3].setSouth(officeHallway);
         locations[0][4].setNorth(officeHallway);

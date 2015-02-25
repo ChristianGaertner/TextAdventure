@@ -64,7 +64,7 @@ public class InitialRoutine implements Routine {
         adapter.send("Awesome! Maybe you should go the control room first. " +
                 "It's the first door to your right (north) at the end of this hallway.\n" +
                 "To get started type: 'help' and to get to the control room try to use " +
-                "'go west' a couple of times\nand then try to open the door by 'interact north'.");
+                "'go west' a couple of times\nand then go through the door 'go north'.");
 
 
         // This Routine cannot handle commands, give the handle back to the parent.
