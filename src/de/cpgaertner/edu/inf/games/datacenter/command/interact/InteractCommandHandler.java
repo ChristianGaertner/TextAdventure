@@ -1,4 +1,4 @@
-package de.cpgaertner.edu.inf.games.datacenter.interact;
+package de.cpgaertner.edu.inf.games.datacenter.command.interact;
 
 import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;
 import de.cpgaertner.edu.inf.api.level.Location;
