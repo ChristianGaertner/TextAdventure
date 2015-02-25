@@ -22,6 +22,7 @@ public abstract class InteractionRoutine implements Routine {
     }
 
     protected Answer askQuestion(String question, String answer1, String answer2, Adapter adapter) throws IOException {
+        adapter.send(question);
         String res;
         while (true) {
             res = adapter.read("[" + answer1 + "/" + answer2 + "/abort]");

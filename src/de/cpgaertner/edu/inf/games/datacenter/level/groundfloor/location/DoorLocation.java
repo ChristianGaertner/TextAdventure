@@ -59,6 +59,10 @@ public class DoorLocation extends BaseLocation {
         @Override
         public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
+            adapter.sendf("This door is %s.",
+                    door.isOpen() ? "open" : "locked"
+            );
+
             if (door.isOpen()) {
 
                 switch (askQuestion("Do you want to lock it?", "yes", "no", adapter)) {

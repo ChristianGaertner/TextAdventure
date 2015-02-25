@@ -71,6 +71,8 @@ public class GroundFloorLevel implements Level {
         DoorLocation officeHallway = new DoorLocation();
         DoorLocation hallwayServer = new DoorLocation();
 
+        hallwayServer.setRoutine(new DoorLocation.DefaultRoutine(hallwayServer));
+
 
         locations[0][3].setSouth(officeHallway);
         locations[0][4].setNorth(officeHallway);
