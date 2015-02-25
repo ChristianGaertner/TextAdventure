@@ -3,6 +3,7 @@ package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
+import de.cpgaertner.edu.inf.api.level.LocationFactory;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.HallwayLocation;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.OfficeLocation;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRoomLocation;
@@ -34,14 +35,24 @@ public class GroundFloorLevel implements Level {
 
         locations = new Location[6][5];
 
-        try {
-            generate(OfficeLocation.class, 0, 1, 0, 3);
-            generate(HallwayLocation.class, 0, 4, 4, 4);
-            generate(ServerRoomLocation.class, 2, 5, 0, 3);
-
-        } catch (IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
-        }
+        generate(new LocationFactory() {
+            @Override
+            public Location generate(Coordinate coordinate) {
+                return new OfficeLocation();
+            }
+        }, 0, 1, 0, 3);
+        generate(new LocationFactory() {
+            @Override
+            public Location generate(Coordinate coordinate) {
+                return new HallwayLocation();
+            }
+        }, 0, 4, 4, 4);
+        generate(new LocationFactory() {
+            @Override
+            public Location generate(Coordinate coordinate) {
+                return new ServerRoomLocation();
+            }
+        }, 2, 5, 0, 3);
 
         // Stairs
         locations[5][4] = new StairsLocation();
@@ -61,10 +72,10 @@ public class GroundFloorLevel implements Level {
 
     }
 
-    protected void generate(Class<? extends Location> type, int x1, int y1, int x2, int y2) throws IllegalAccessException, InstantiationException {
+    protected void generate(LocationFactory factory, int x1, int y1, int x2, int y2) {
         for (int x = x1; x <= x2; x++) {
             for (int y = y1; y <= y2; y++) {
-                locations[x][y] = type.newInstance();
+                locations[x][y] = factory.generate(new Coordinate(x, y));
             }
         }
     }
