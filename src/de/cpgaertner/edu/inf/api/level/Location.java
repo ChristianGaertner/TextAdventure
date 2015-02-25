@@ -20,6 +20,14 @@ public interface Location {
 
     public Location getEast();
 
+    public void setNorth(Location location);
+
+    public void setWest(Location location);
+
+    public void setSouth(Location location);
+
+    public void setEast(Location location);
+
     /**
      * Whether a Player can walk into this location,
      * Hallways, etc. but not lockers, desks, etc.
