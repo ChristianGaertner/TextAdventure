@@ -18,3 +18,9 @@ The gameplay will consist of many puzzles and tasks to solve and eventually get 
 ### Commands
 
 Just use the ingame `help` command to see a list of commands with their explanation and usage guide.
+
+### Map
+
+To get you started here is a handdrawn map of the first level:
+
+![Map](https://i.imgur.com/J7EDgxAh.jpg)
