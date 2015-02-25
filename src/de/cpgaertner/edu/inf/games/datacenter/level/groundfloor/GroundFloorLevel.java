@@ -4,10 +4,7 @@ import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.LocationFactory;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.HallwayLocation;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.OfficeLocation;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRoomLocation;
-import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.StairsLocation;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.*;
 import lombok.Getter;
 
 public class GroundFloorLevel implements Level {
@@ -44,9 +41,18 @@ public class GroundFloorLevel implements Level {
         generate(new LocationFactory() {
             @Override
             public Location generate(Coordinate coordinate) {
-                return new HallwayLocation();
+                HallwayLocation location = new HallwayLocation();
+                location.setSouth(new WallLocation());
+                location.setNorth(new WallLocation());
+
+                if (coordinate.equals(0, 4)) {
+                    location.setWest(new WallLocation());
+                }
+
+                return location;
             }
         }, 0, 4, 4, 4);
+
         generate(new LocationFactory() {
             @Override
             public Location generate(Coordinate coordinate) {
@@ -56,7 +62,6 @@ public class GroundFloorLevel implements Level {
 
         // Stairs
         locations[5][4] = new StairsLocation();
-
     }
 
     @Override

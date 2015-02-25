@@ -15,6 +15,9 @@ public class Coordinate {
     protected int x, y;
 
 
+    public boolean equals(int x, int y) {
+        return this.x == x && this.y == y;
+    }
 
     public Coordinate getNorth() {
         return new Coordinate(getX(), getY() - 1);
