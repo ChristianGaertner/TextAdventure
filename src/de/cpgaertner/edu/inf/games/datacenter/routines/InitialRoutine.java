@@ -35,18 +35,19 @@ public class InitialRoutine implements Routine {
          */
         assert cmd == null;
 
-        adapter.sendf("Hallo. Willkommen beim Spiel %s.", getName());
-        adapter.send("Magst Du mir zunächst deinen Name verraten?");
+        adapter.sendf("Hi. Welcome to the game %s.", getName());
+        adapter.send("To get started: what's your name?");
 
         String name = adapter.read(">>");
 
         player.setName(name);
 
-        adapter.sendf("Hi %s. Ich freue mich das du hier bist. Um ehrlich zu sein haben wir hier gerade ein " +
-                "paar Probleme. Irgendjemand hat sich Zugang zu unserem Rechenzentrum verschaffen und alle " +
-                "Server lahm gelegt.\nKannst Du uns helfen das Problem zu lösen?", name);
+        adapter.sendf("Hi %s. I'm glad to see you. To be honest, we are experiencing major issues " +
+                "with our center at this point. A random hacker as gained access to the control room " +
+                "and has shutdown everything.\n" +
+                "Would you like to help us?", name);
 
-        String answer = adapter.read("[j/n]");
+        String answer = adapter.read("[y/n]");
 
         boolean yes = false;
         if (answer.equalsIgnoreCase("j") || answer.equalsIgnoreCase("ja") || answer.equalsIgnoreCase("jo") || answer.equalsIgnoreCase("y")) {
@@ -54,14 +55,16 @@ public class InitialRoutine implements Routine {
         }
 
         if (!yes) {
-            adapter.sendf("Schade %s. Vielleicht beim nächsten Mal", name);
-            adapter.send("o/ Tschüss.");
+            adapter.sendf("What a shame %s. Maybe next time..", name);
+            adapter.send("o/ Bye.");
             throw new ExitRequestedException();
         }
 
 
-        adapter.send("Super. Das ist Klasse. Am Besten du schaust erstmal im Kontroll Raum vorbei, " +
-                "der ist links im Gang die erste Tür rechts!");
+        adapter.send("Awesome! Maybe you should go the control room first. " +
+                "It's the first door to your right (north) at the end of this hallway.\n" +
+                "To get started type: 'help' and to get to the control room try to use " +
+                "'go west' a couple of times\nand then try to open the door by 'interact north'.");
 
 
         // This Routine cannot handle commands, give the handle back to the parent.
