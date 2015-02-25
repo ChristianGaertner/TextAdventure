@@ -20,8 +20,11 @@ public class InteractCommandHandler implements CommandHandler<InteractCommand> {
         Location target = player.getLevel().getAt(player.getPosition()).get(dir);
 
         if (target == null) {
-            cmd.respondf("No location to interact in the %s", dir);
-            return;
+            target = player.get(dir);
+            if (target == null) {
+                cmd.respondf("No location to interact in the %s.", dir);
+                return;
+            }
         }
 
         Routine interaction = target.getRoutine();

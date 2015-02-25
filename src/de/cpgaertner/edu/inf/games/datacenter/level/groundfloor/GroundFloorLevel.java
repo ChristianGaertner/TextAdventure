@@ -1,11 +1,17 @@
 package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor;
 
+import de.cpgaertner.edu.inf.api.adapter.Adapter;
+import de.cpgaertner.edu.inf.api.command.Command;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.LocationFactory;
+import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.*;
 import lombok.Getter;
+
+import java.io.IOException;
 
 public class GroundFloorLevel implements Level {
 
@@ -61,7 +67,32 @@ public class GroundFloorLevel implements Level {
         }, 2, 5, 0, 3);
 
         // Stairs
-        locations[5][4] = new StairsLocation();
+        StairsLocation stairs = new StairsLocation();
+        stairs.setRoutine(new InteractionRoutine() {
+            @Override
+            public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+                adapter.send("Do you want to go up or down?");
+
+                boolean undecided = true;
+
+                while (undecided) {
+                    String res = adapter.read("[up/down/abort]->");
+                    if (res.equalsIgnoreCase("up") || res.equalsIgnoreCase("down")) {
+                        adapter.send("You can't at this point...");
+                        undecided = false;
+                    } else if (res.equalsIgnoreCase("abort")) {
+                        adapter.send("To your command master!");
+                        undecided = false;
+                    } else {
+                        adapter.send("Please choose one of the possible answers!");
+                    }
+                }
+
+                return false;
+            }
+        });
+
+        locations[5][4] = stairs;
     }
 
     @Override
