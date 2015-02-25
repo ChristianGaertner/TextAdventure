@@ -6,10 +6,13 @@ import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
 public class DefaultPlayer implements Player {
+
+    public static final int INITIAL_INVENTORY_SIZE = 2;
 
     protected Map<String, Object> metaData;
 
@@ -23,6 +26,10 @@ public class DefaultPlayer implements Player {
 
     protected Item itemInHand;
 
+    public DefaultPlayer() {
+        metaData = new HashMap<>();
+        inventory = new Inventory(INITIAL_INVENTORY_SIZE);
+    }
 
     @Override
     public Object getMetaData(String key) {
