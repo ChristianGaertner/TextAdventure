@@ -61,17 +61,14 @@ public class GroundFloorLevel implements Level {
         }, 2, 5, 0, 3);
 
         // Stairs
-        StairsLocation stairs = new StairsLocation();
-        stairs.useDefaultRoutine();
+        StairsLocation stairs = new StairsLocation().useDefaultRoutine();
 
         locations[5][4] = stairs;
 
 
         // Doors
-        DoorLocation officeHallway = new DoorLocation();
-        DoorLocation hallwayServer = new DoorLocation();
-
-        hallwayServer.useDefaultRoutine();
+        DoorLocation officeHallway = new DoorLocation().useDefaultRoutine();
+        DoorLocation hallwayServer = new DoorLocation().useDefaultRoutine();
 
 
         locations[0][3].setSouth(officeHallway);

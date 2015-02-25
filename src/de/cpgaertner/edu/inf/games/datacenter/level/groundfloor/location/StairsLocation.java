@@ -18,8 +18,9 @@ public class StairsLocation extends BaseLocation {
     @Getter @Setter protected Level down;
 
     @Override
-    public void useDefaultRoutine() {
+    public StairsLocation useDefaultRoutine() {
         setRoutine(new DefaultRoutine(this));
+        return this;
     }
 
     @AllArgsConstructor

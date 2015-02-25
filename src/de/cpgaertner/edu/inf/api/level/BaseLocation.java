@@ -20,7 +20,11 @@ public abstract class BaseLocation implements Location {
     protected Routine routine;
 
 
-    public void useDefaultRoutine() {
+    /**
+     * Sets the Routine to the default routine, if there is any.
+     * @return self (chaining support)
+     */
+    public Location useDefaultRoutine() {
         throw new UnsupportedOperationException();
     }
 

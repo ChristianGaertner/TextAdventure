@@ -51,8 +51,9 @@ public class DoorLocation extends BaseLocation {
     }
 
     @Override
-    public void useDefaultRoutine() {
+    public DoorLocation useDefaultRoutine() {
         setRoutine(new DefaultRoutine(this));
+        return this;
     }
 
     @AllArgsConstructor
