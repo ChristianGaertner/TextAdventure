@@ -50,6 +50,11 @@ public class DoorLocation extends BaseLocation {
         return this.key == key && (open = true);
     }
 
+    @Override
+    public void useDefaultRoutine() {
+        setRoutine(new DefaultRoutine(this));
+    }
+
     @AllArgsConstructor
     public static class DefaultRoutine extends InteractionRoutine {
 

@@ -20,6 +20,10 @@ public abstract class BaseLocation implements Location {
     protected Routine routine;
 
 
+    public void useDefaultRoutine() {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public Location get(Direction direction) {
         switch (direction) {

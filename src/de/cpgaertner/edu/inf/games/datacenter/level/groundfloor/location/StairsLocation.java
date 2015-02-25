@@ -17,6 +17,10 @@ public class StairsLocation extends BaseLocation {
     @Getter @Setter protected Level up;
     @Getter @Setter protected Level down;
 
+    @Override
+    public void useDefaultRoutine() {
+        setRoutine(new DefaultRoutine(this));
+    }
 
     @AllArgsConstructor
     public static class DefaultRoutine extends InteractionRoutine {
