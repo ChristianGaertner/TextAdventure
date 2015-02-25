@@ -29,35 +29,25 @@ public class StairsLocation extends BaseLocation {
 
         @Override
         public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
-            adapter.send("Do you want to go up or down?");
 
-            boolean undecided = true;
 
-            while (undecided) {
-                String res = adapter.read("[up/down/abort]");
-                undecided = false;
-                if (res.equalsIgnoreCase("up")) {
-
+            switch (askQuestion("Do you want to go up or down?", "up", "down", adapter)) {
+                case ONE:
                     if (getStairs().getUp() == null) {
                         adapter.send("This staircase doesn't go up, sadly...");
                     } else {
                         player.setLevel(getStairs().getUp());
                     }
-
-                } else if (res.equalsIgnoreCase("down")) {
-
+                    break;
+                case TWO:
                     if (getStairs().getDown() == null) {
                         adapter.send("This staircase doesn't go down, sadly...");
                     } else {
                         player.setLevel(getStairs().getDown());
                     }
-
-                } else if (res.equalsIgnoreCase("abort")) {
+                    break;
+                case ABORT:
                     adapter.send("To your command master!");
-                } else {
-                    undecided = true;
-                    adapter.send("Please choose one of the possible answers!");
-                }
             }
 
             return false;
