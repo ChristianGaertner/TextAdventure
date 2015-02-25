@@ -1,5 +1,7 @@
 package de.cpgaertner.edu.inf.api.command;
 
+import de.cpgaertner.edu.inf.api.adapter.Adapter;
+
 import java.io.IOException;
 
 /**
@@ -57,4 +59,10 @@ public interface Command {
      * @see de.cpgaertner.edu.inf.api.adapter.Adapter#sendf
      */
     public void respondf(String msg, Object... args) throws IOException;
+
+    /**
+     * A command should provide the adapter
+     * @return the adapter used to issue this command
+     */
+    public Adapter getAdapter();
 }

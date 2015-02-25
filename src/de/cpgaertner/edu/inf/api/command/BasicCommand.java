@@ -13,7 +13,7 @@ public class BasicCommand implements Command {
 
     @Getter protected String[] args;
 
-    protected Adapter adapter;
+    @Getter protected Adapter adapter;
 
 
     /**
