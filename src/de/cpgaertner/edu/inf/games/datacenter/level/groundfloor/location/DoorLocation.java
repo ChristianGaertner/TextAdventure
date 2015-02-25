@@ -46,6 +46,10 @@ public class DoorLocation extends BaseLocation {
         return true;
     }
 
+    public void forceOpen() {
+        this.open = true;
+    }
+
     public boolean openWith(Key key) {
         return this.key == key && (open = true);
     }

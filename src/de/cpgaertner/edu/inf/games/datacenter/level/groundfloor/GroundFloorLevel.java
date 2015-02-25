@@ -85,6 +85,16 @@ public class GroundFloorLevel implements Level {
     }
 
     /**
+     * Returns the lower right corner of the level
+     *
+     * @return lower right corner
+     */
+    @Override
+    public Coordinate getBound() {
+        return new Coordinate(6, 5);
+    }
+
+    /**
      * Close the level aka. the Player leaves the level
      */
     @Override

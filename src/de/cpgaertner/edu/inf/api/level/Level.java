@@ -21,6 +21,12 @@ public interface Level {
     public Location getAt(Coordinate coordinate);
 
     /**
+     * Returns the lower right corner of the level
+     * @return lower right corner
+     */
+    public Coordinate getBound();
+
+    /**
      * Close the level aka. the Player leaves the level
      */
     public void close();
