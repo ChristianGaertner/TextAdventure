@@ -31,8 +31,9 @@ public class GoCommandHandler implements CommandHandler<GoCommand> {
                     );
                 }
             }
+        } else {
+            cmd.respondf("You cannot walk into the location in the %s", cmd.getDirection());
         }
 
-        cmd.respondf("You cannot walk into the location in the %s", cmd.getDirection());
     }
 }
