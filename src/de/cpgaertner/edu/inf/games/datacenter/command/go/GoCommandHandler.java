@@ -19,7 +19,7 @@ public class GoCommandHandler implements CommandHandler<GoCommand> {
         // First check the sides of the location itself
         Location loc = player.getLevel().getAt(player.getPosition()).get(dir);
 
-        if (loc == null) {
+        if (loc == null || loc.isWalkable()) {
             Coordinate newPos = player.getPosition().get(cmd.getDirection());
             Location newLoc = player.getLevel().getAt(newPos);
             if (newLoc !=  null) {
