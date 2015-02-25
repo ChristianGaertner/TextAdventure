@@ -29,6 +29,7 @@ public class GoCommandHandler implements CommandHandler<GoCommand> {
                     newPos,
                     newLoc.getClass().getSimpleName()
                 );
+                return;
             }
 
         }
