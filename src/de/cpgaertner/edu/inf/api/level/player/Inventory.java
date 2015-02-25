@@ -30,6 +30,10 @@ public class Inventory {
         add(getItems().size(), item);
     }
 
+    public boolean isEmpty() {
+        return getItems().isEmpty();
+    }
+
     public void remove(int slot) {
         getItems().remove(slot);
     }
@@ -43,14 +47,25 @@ public class Inventory {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        for (Map.Entry<Integer, Item> entry : getItems().entrySet()) {
+        if (getItems().isEmpty()) {
+            return "Inventory is empty!";
+        }
+
+        for (int i = 0; i < getSlots(); i++) {
             builder
-                    .append(entry.getKey())
-                    .append(": ")
-                    .append(entry.getValue().getName())
+                .append(i)
+                .append(": ");
+            Item item = getItems().get(i);
+
+            if (item == null) {
+                builder.append("<none>");
+            } else {
+                builder
+                    .append(item.getName())
                     .append(" (")
-                    .append(entry.getValue().getClass().getSimpleName())
+                    .append(item.getClass().getSimpleName())
                     .append(")\n");
+            }
         }
 
         return builder.toString();

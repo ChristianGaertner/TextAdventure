@@ -60,55 +60,91 @@ public class DoorLocation extends BaseLocation {
         public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
             adapter.sendf("This door is %s.",
-                    door.isOpen() ? "open" : "locked"
+                    getDoor().isOpen() ? "open" : "locked"
             );
 
-            if (door.isOpen()) {
-
-                switch (askQuestion("Do you want to lock it?", "yes", "no", adapter)) {
-                    case ONE:
-                        Key key = null;
-                        try {
-                            key = door.generateKey(false);
-                        } catch (IllegalStateException e) {
-                            adapter.send("You need to provide a key to lock this door!");
-                            return false;
-                        }
-
-                        door.lock();
-
-                        try {
-                            player.getInventory().add(key);
-                        } catch (InsufficientInventorySpaceException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case TWO: /* falls through */
-                    default:
-                        adapter.send("Ok, then go ahead!");
-                }
-
+            if (getDoor().isOpen()) {
+                openDoorRoutine(player, adapter);
             } else {
-
-                switch (askQuestion("Do you want to open it?", "yes", "no", adapter)) {
-                    case ONE:
-                        adapter.send("Please choose a key!");
-                        adapter.send(player.getInventory().toString());
-                        String slot = adapter.read("slot #:");
-                        adapter.send("Key opening is not implemented yet... Sorry!");
-                        break;
-                    case TWO: /* falls through */
-                    default:
-                        adapter.send("Ok, then go ahead!");
-
-                }
-
-
-
+                lockDoorRoutine(player, adapter);
             }
 
             return false;
         }
+
+
+        protected void openDoorRoutine(Player player, Adapter adapter) throws IOException {
+            switch (askQuestion("Do you want to lock it?", "yes", "no", adapter)) {
+                case ONE:
+                    Key key = null;
+                    try {
+                        key = door.generateKey(false);
+                    } catch (IllegalStateException e) {
+                        adapter.send("You need to provide a key to lock this door!");
+                        return;
+                    }
+
+                    door.lock();
+
+                    try {
+                        player.getInventory().add(key);
+                    } catch (InsufficientInventorySpaceException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case TWO: /* falls through */
+                default:
+                    adapter.send("Ok, then go ahead!");
+            }
+        }
+
+        protected void lockDoorRoutine(Player player, Adapter adapter) throws IOException {
+
+            switch (askQuestion("Do you want to open it?", "yes", "no", adapter)) {
+                case ONE:
+                    adapter.send("Please choose a key!");
+                    if (player.getInventory().isEmpty()) {
+                        adapter.send("Looks like your inventory is empty. Then you cannot open this door, find the key first!");
+                        return;
+                    }
+                    adapter.send(player.getInventory().toString());
+
+                    boolean answerPending = true;
+                    int slot = 0;
+                    while (answerPending) {
+                        String slotString = adapter.read("slot #:");
+                        try {
+                            slot = Integer.parseInt(slotString);
+                            answerPending = false;
+                        } catch (NumberFormatException e) {
+                            answerPending = true;
+                        }
+
+                    }
+
+                    Item i = player.getInventory().getItems().get(slot);
+                    if (i instanceof Key) {
+                        boolean properKey = getDoor().openWith((Key) i);
+
+                        if (properKey) {
+                            adapter.send("The door is now open");
+                        } else {
+                            adapter.send("You provided the wrong key!");
+                        }
+
+                    } else {
+                        adapter.send("None key item provided");
+                    }
+
+                    break;
+                case TWO: /* falls through */
+                default:
+                    adapter.send("Ok, then go ahead!");
+
+            }
+
+        }
+
     }
 
 }
