@@ -17,6 +17,10 @@ public class StairsLocation extends BaseLocation {
     @Getter @Setter protected Level up;
     @Getter @Setter protected Level down;
 
+    public StairsLocation() {
+        setWalkable(false);
+    }
+
     @Override
     public StairsLocation useDefaultRoutine() {
         setRoutine(new DefaultRoutine(this));

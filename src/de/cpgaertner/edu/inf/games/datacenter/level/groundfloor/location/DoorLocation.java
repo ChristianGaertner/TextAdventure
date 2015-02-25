@@ -60,6 +60,11 @@ public class DoorLocation extends BaseLocation {
         return this;
     }
 
+    @Override
+    public boolean isWalkable() {
+        return isOpen();
+    }
+
     @AllArgsConstructor
     public static class DefaultRoutine extends InteractionRoutine {
 

@@ -20,18 +20,17 @@ public class GoCommandHandler implements CommandHandler<GoCommand> {
         Location loc = player.getLevel().getAt(player.getPosition()).get(dir);
 
         if (loc == null || loc.isWalkable()) {
+
             Coordinate newPos = player.getPosition().get(cmd.getDirection());
-            Location newLoc = player.getLevel().getAt(newPos);
-            if (newLoc !=  null) {
-                if (newLoc.isWalkable()) {
-                    player.setPosition(newPos);
-                    cmd.respondf("Now you are at %s, this is a location of the type '%s'.",
-                            newPos,
-                            newLoc.getClass().getSimpleName()
-                    );
-                    return;
-                }
+            Location newLoc = player.get(dir);
+            if (newLoc.isWalkable()) {
+                player.setPosition(newPos);
+                cmd.respondf("Now you are at %s, this is a location of the type '%s'.",
+                    newPos,
+                    newLoc.getClass().getSimpleName()
+                );
             }
+
         }
 
         cmd.respondf("You cannot walk into the location in the %s", cmd.getDirection());
