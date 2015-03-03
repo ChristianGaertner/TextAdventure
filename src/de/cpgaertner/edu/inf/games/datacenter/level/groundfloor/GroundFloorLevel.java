@@ -212,6 +212,10 @@ public class GroundFloorLevel implements Level {
                 adapter.send("2x '2'");
                 adapter.send("2x '3'");
                 adapter.send("2x '4'");
+                adapter.send("The '1's have to be separated by 1 digit,");
+                adapter.send("The '2's have to be seperated by 2 digit,");
+                adapter.send("The '3's have to be seperated by 3 digit,");
+                adapter.send("The '4's have to be seperated by 4 digit.");
 
                 String pwd = "INITIAL_WRONG_STRING";
 
@@ -230,14 +234,25 @@ public class GroundFloorLevel implements Level {
                 while (run) {
                     String command = adapter.read("$");
 
-                    if (command.startsWith("log")) {
+                    if (command.equalsIgnoreCase("log")) {
                         adapter.send("Access log:");
                         adapter.sendf("%s >> %s", player.getName(), date.toString());
                         adapter.sendf("%s >> %s", "Bob", new Date(date.getTime() - 1000 * 60 * 45).toString());
                         adapter.sendf("%s >> %s", "%$&TFKΩ¢", new Date(date.getTime() - 1000 * 60 * 60 * 12).toString());
 
                         adapter.send("Error accessing log, invalid string for username given. Use 'repair log' and run 'log' again");
-                        run = false;
+
+                    } else if (command.equalsIgnoreCase("repair log")) {
+                        adapter.send("Invalid String found: '%$&TFKΩ¢'");
+                        adapter.send("Matching against user-database");
+                        adapter.send("Solving...");
+
+                        for (int i = 0; i < 500; i++) {
+                            adapter.put(".");
+                        }
+
+                        adapter.send("Solved.");
+                        adapter.send("Access log has been repaired!");
                     }
 
 
