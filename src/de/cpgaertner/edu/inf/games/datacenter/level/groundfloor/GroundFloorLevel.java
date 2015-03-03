@@ -37,21 +37,42 @@ public class GroundFloorLevel implements Level {
             public Location generate(Coordinate coordinate) {
                 OfficeLocation location = new OfficeLocation();
 
+
+                int x = coordinate.getX();
+                int y = coordinate.getY();
+
                 // Walls
-                if (coordinate.getX() == 0) {
+                if (coordinate.equals(0, 3)) {
                     location.setWest(new WallLocation());
                 }
 
-                if (coordinate.getX() == 1) {
+                if (coordinate.equals(0, 0)) {
+                    location.setWest(new WallLocation());
+                }
+
+                if (coordinate.equals(1, 0)) {
                     location.setEast(new WallLocation());
                 }
 
-                if (coordinate.getY() == 0) {
-                    location.setNorth(new WallLocation());
+                // Computer
+                if (y == 0 && x <= 1) {
+                    location.setNorth(new ComputerLocation());
                 }
 
+                // CableBoxes
+                if (x == 0 && (y == 1 || y == 2)) {
+                    location.setWest(new CableBoxLocation());
+                }
+
+                // Monitor
                 if (coordinate.equals(1, 3)) {
-                    location.setSouth(new WallLocation());
+                    location.setEast(new MonitorscreenLocation());
+                    location.setSouth(new MonitorscreenLocation());
+                }
+
+                // Whiteboard
+                if (coordinate.equals(1, 2)) {
+                    location.setEast(new WhiteboardLocation());
                 }
 
 
