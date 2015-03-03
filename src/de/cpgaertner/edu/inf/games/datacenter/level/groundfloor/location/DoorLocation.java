@@ -64,6 +64,11 @@ public class DoorLocation extends BaseLocation {
         return isOpen();
     }
 
+    @Override
+    public String toString() {
+        return "DoorLocation[open=" + isOpen() + "]>>" + super.toString();
+    }
+
     @AllArgsConstructor
     public static class DefaultRoutine extends InteractionRoutine {
 

@@ -9,6 +9,7 @@ import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
 import de.cpgaertner.edu.inf.api.routine.RootRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
+import de.cpgaertner.edu.inf.games.datacenter.command.debug.debugger.DebuggerCommandPackage;
 import de.cpgaertner.edu.inf.games.datacenter.command.debug.force_open_all.ForceOpenAllCommandPackage;
 import de.cpgaertner.edu.inf.games.datacenter.command.go.GoCommandPackage;
 import de.cpgaertner.edu.inf.games.datacenter.command.interact.InteractCommandPackage;
@@ -57,6 +58,7 @@ public class DataCenterAdventure implements Game {
 
         if (Main.DEBUG) {
             r.addCommand(new ForceOpenAllCommandPackage());
+            r.addCommand(new DebuggerCommandPackage());
         }
 
         return r;
