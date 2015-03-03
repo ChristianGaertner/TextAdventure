@@ -109,6 +109,11 @@ public class DoorLocation extends BaseLocation {
             switch (askYesNoQuestion("Do you want to open it?", adapter)) {
                 case YES:
                     Key k = chooseKey(player, adapter);
+
+                    if (k == null) {
+                        adapter.send("I try it without key then");
+                    }
+
                     boolean properKey = getDoor().openWith(k);
 
                     if (properKey) {
