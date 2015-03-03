@@ -194,6 +194,9 @@ public class ComputerOneRoutine extends InteractionRoutine {
             adapter.send("HINT: Rack locations are as follows:");
             adapter.send("RACK:_number_#_direction_#_y-coordinate_#_server-number_");
             adapter.send("Removing a HDD is a manual process, you have to physically stand in front of the server.");
+            adapter.send("===HINT===");
+            adapter.send("In order to grab the harddrive, first go to x=3 y=1");
+            adapter.send("then interact with the rack to your west and remove the HDD.");
 
         }
         else if (player.getMetaValue(KEY_RACK_STATUS_1) == RACK_STATUS_CRASH_MISSING_HDD) {
