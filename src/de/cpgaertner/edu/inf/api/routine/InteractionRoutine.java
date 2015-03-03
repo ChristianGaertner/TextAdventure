@@ -76,7 +76,7 @@ public abstract class InteractionRoutine implements Routine {
 
         adapter.send(player.getInventory().toString());
 
-        int slot = getNumber("slot #:", adapter);
+        int slot = getInteger("slot #:", 0, player.getInventory().getSlots(), adapter);
 
         if (player.getInventory().getSlots() < slot) {
             adapter.send(irs.getNoSuchSlot());
@@ -93,21 +93,30 @@ public abstract class InteractionRoutine implements Routine {
         return null;
     }
 
-    protected int getNumber(String prompt, Adapter adapter) throws IOException {
-        boolean answerPending = true;
-        int number = 0;
-        while (answerPending) {
+    /**
+     * Requests a number
+     * @param prompt prompt for the user {@link de.cpgaertner.edu.inf.api.adapter.Adapter#read(String)}
+     * @param lower lower bound, test is <code>input >= lower</code>
+     * @param upper upper bound, test is <code>input <= upper</code>
+     * @param adapter adapter to use
+     * @return a number in the range of (lower,upper)
+     * @throws IOException
+     */
+    protected int getInteger(String prompt, int lower, int upper, Adapter adapter) throws IOException {
+        int integer;
+        while (true) {
             String numberString = adapter.read(prompt);
             try {
-                number = Integer.parseInt(numberString);
-                answerPending = false;
+                integer = Integer.parseInt(numberString);
+                if (integer >= lower && integer <= upper) {
+                    return integer;
+                } else {
+                    adapter.sendf("Given integer out of range (%s,%s)", lower, upper);
+                }
             } catch (NumberFormatException e) {
-                answerPending = true;
+                adapter.send("Please enter an integer");
             }
-
         }
-
-        return number;
     }
 
     @AllArgsConstructor @Data protected static class InventoryResponseSuite {
