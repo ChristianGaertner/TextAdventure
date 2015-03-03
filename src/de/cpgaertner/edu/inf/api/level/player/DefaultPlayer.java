@@ -41,6 +41,16 @@ public class DefaultPlayer implements Player {
         getMetaData().put(key, data);
     }
 
+    @Override
+    public int getMetaValue(String key) {
+        return (int) getMetaData(key);
+    }
+
+    @Override
+    public void setMetaValue(String key, int data) {
+        setMetaData(key, data);
+    }
+
     /**
      * Wrapper for
      * <code>player.getLevel().getAt(player.getPosition().get(direction))</code>

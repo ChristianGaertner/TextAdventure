@@ -13,6 +13,10 @@ public interface Player {
 
     public void setMetaData(String key, Object data);
 
+    public int getMetaValue(String key);
+
+    public void setMetaValue(String key, int data);
+
     public Map<String, Object> getMetaData();
 
     public void setMetaData(Map<String, Object> data);
