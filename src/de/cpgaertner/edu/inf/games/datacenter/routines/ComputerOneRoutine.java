@@ -175,7 +175,10 @@ public class ComputerOneRoutine extends InteractionRoutine {
         HardDrive drive = server.getHdd();
 
         if (drive == null) {
-            player.setMetaValue(KEY_RACK_STATUS_1, RACK_STATUS_CRASH_MISSING_HDD);
+            int s = player.getMetaValue(KEY_RACK_STATUS_1);
+            if (s == RACK_STATUS_SUSPENDED_INVALIDCONF || s == RACK_STATUS_BOOTED) {
+                player.setMetaValue(KEY_RACK_STATUS_1, RACK_STATUS_SUS_MISSING_HDD);
+            }
         }
 
         adapter.send("SERVER RACK 1.");
@@ -217,6 +220,14 @@ public class ComputerOneRoutine extends InteractionRoutine {
         else if (player.getMetaValue(KEY_RACK_STATUS_1) == RACK_STATUS_CRASH_MISSING_HDD) {
 
             adapter.send("STATUS: CRASHED");
+            adapter.send("MISSING HDD @ RACK:1#EAST#1#3");
+            adapter.send("Insert new HDD and then run './configure.sh SERVER RACK 1'");
+
+        }
+        else if (player.getMetaValue(KEY_RACK_STATUS_1) == RACK_STATUS_SUS_MISSING_HDD) {
+
+            adapter.send("STATUS: SUSPENDED");
+            adapter.put("Scanning OS files");
             adapter.send("MISSING HDD @ RACK:1#EAST#1#3");
             adapter.send("Insert new HDD and then run './configure.sh SERVER RACK 1'");
 
