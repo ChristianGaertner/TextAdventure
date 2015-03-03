@@ -134,6 +134,13 @@ public class GroundFloorLevel implements Level {
         locations[3][3].setSouth(hallwayServer);
         locations[3][4].setNorth(hallwayServer);
 
+
+        // Window
+        WindowLocation window = new WindowLocation();
+
+        locations[1][1].setEast(window);
+        locations[2][1].setWest(window);
+
     }
 
     @Override
