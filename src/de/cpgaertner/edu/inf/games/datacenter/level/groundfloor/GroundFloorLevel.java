@@ -101,12 +101,38 @@ public class GroundFloorLevel implements Level {
                 }
 
                 // Server
-                if ((x == 2 || x == 3 || x == 4) && y != 3) {
+                if (x >= 2 && x <= 4 && y != 3) {
                     location.setEast(new ServerRackLocation().useDefaultRoutine());
                 }
 
-                if ((x == 3 || x == 4 || x == 5) && y != 3) {
+                if (x >= 3 && x <= 5 && y != 3) {
                     location.setWest(new ServerRackLocation().useDefaultRoutine());
+                }
+
+                // Fuseboxes
+                if (x == 5 && y < 3) {
+                    location.setEast(new FuseboxLocation());
+                    if (y == 0) {
+                        location.setNorth(new FuseboxLocation());
+                    }
+                }
+
+                // Vent
+                if (coordinate.equals(5, 3)) {
+                    location.setEast(new VentLocation());
+                }
+
+                // Switches
+                if (coordinate.equals(2, 0) || coordinate.equals(2, 2)) {
+                    location.setWest(new SwitchLocation());
+                    if (y == 0) {
+                        location.setNorth(new SwitchLocation());
+                    }
+                }
+
+                // Router
+                if (coordinate.equals(2, 3)) {
+                    location.setWest(new RouterLocation());
                 }
 
 
