@@ -127,7 +127,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
     }
 
     protected static void panic(Adapter adapter, String arg) throws IOException {
-        adapter.sendf("KERNAL PANIC, %s", arg);
+        adapter.sendf("KERNAL PANIC %s", arg);
     }
 
     protected static void cmdRepairLog(Player player, Adapter adapter) throws IOException {
@@ -227,7 +227,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
         else if (player.getMetaValue(KEY_RACK_STATUS_1) == RACK_STATUS_SUS_MISSING_HDD) {
 
             adapter.send("STATUS: SUSPENDED");
-            adapter.put("Scanning OS files");
+            adapter.send("Scanning OS files");
             adapter.send("MISSING HDD @ RACK:1#EAST#1#3");
             adapter.send("Insert new HDD and then run './configure.sh SERVER RACK 1'");
 
