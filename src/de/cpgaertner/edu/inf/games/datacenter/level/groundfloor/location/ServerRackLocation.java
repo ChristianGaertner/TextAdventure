@@ -67,6 +67,7 @@ public class ServerRackLocation extends BaseLocation {
             @Override
             public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
                 if (hdd == null) {
+                    adapter.send("This server doesn't hold a harddrive!");
                     switch (askYesNoQuestion("Do you want to insert a harddrive?", adapter)) {
                         case YES:
                             ItemSlotPaylod i = getItem(InventoryResponseSuite.DEFAULT, player, adapter);
@@ -84,6 +85,7 @@ public class ServerRackLocation extends BaseLocation {
                             adapter.send("Ok then go ahead");
                     }
                 } else {
+                    adapter.send("This server holds a harddrive!");
                     switch (askYesNoQuestion("Do you want to remove the harddrive?", adapter)) {
                         case YES:
                             try {
