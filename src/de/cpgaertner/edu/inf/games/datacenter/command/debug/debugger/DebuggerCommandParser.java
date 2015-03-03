@@ -42,6 +42,6 @@ public class DebuggerCommandParser implements CommandParser {
 
     @Override
     public String getHelp() {
-        return "debugger [direction]: calls toString on this location. direction{north,east,south,west}";
+        return "debugger [direction]: %DEBUG% calls toString on this location. direction{north,east,south,west}";
     }
 }
