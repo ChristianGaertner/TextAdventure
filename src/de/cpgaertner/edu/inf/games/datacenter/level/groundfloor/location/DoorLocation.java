@@ -37,7 +37,7 @@ public class DoorLocation extends BaseLocation {
     }
 
     public boolean lock() {
-        if (isOpen()) {
+        if (!isOpen()) {
             return false;
         }
         this.open = false;
