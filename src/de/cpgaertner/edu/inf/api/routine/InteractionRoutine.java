@@ -67,7 +67,7 @@ public abstract class InteractionRoutine implements Routine {
         }
     }
 
-    protected Item getItem(InventoryResponseSuite irs, Player player, Adapter adapter) throws IOException {
+    protected ItemSlotPaylod getItem(InventoryResponseSuite irs, Player player, Adapter adapter) throws IOException {
 
         if (player.getInventory().isEmpty()) {
             adapter.send(irs.getEmptyInventory());
@@ -86,7 +86,7 @@ public abstract class InteractionRoutine implements Routine {
         Item i = player.getInventory().getItems().get(slot);
 
         if (i != null) {
-            return i;
+            return new ItemSlotPaylod(i, slot);
         }
 
         adapter.send(irs.getNoItemAtSlot());
@@ -133,5 +133,10 @@ public abstract class InteractionRoutine implements Routine {
 
         protected String noSuchSlot;
 
+    }
+
+    @AllArgsConstructor @Data protected class ItemSlotPaylod {
+        protected Item item;
+        protected int slot;
     }
 }

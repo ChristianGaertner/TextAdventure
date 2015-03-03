@@ -98,7 +98,6 @@ public class DoorLocation extends BaseLocation {
                     door.lock();
                     adapter.send("The door is now locked.");
                     break;
-                case NO: /* falls through */
                 default:
                     adapter.send("Ok, then go ahead!");
             }
@@ -123,7 +122,6 @@ public class DoorLocation extends BaseLocation {
                     }
 
                     break;
-                case NO: /* falls through */
                 default:
                     adapter.send("Ok, then go ahead!");
 
@@ -134,14 +132,14 @@ public class DoorLocation extends BaseLocation {
         protected Key chooseKey(Player player, Adapter adapter) throws IOException {
             adapter.send("Please choose a key!");
 
-            Item i = getItem(InventoryResponseSuite.DEFAULT, player, adapter);
+            ItemSlotPaylod i = getItem(InventoryResponseSuite.DEFAULT, player, adapter);
 
-            if (i == null) {
+            if (i.getItem() == null) {
                 return null;
             }
 
-            if (i instanceof Key) {
-                return (Key) i;
+            if (i.getItem() instanceof Key) {
+                return (Key) i.getItem();
             } else {
                 adapter.send("None key item provided");
             }

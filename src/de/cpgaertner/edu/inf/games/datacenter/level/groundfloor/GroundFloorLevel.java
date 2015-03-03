@@ -5,6 +5,7 @@ import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.LocationFactory;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.*;
+import de.cpgaertner.edu.inf.games.datacenter.level.item.HardDrive;
 import de.cpgaertner.edu.inf.games.datacenter.routines.ComputerOneRoutine;
 import lombok.Getter;
 
@@ -193,6 +194,14 @@ public class GroundFloorLevel implements Level {
         ComputerLocation computer = (ComputerLocation) locations[0][0].getNorth();
 
         computer.setRoutine(new ComputerOneRoutine());
+
+        // rack with invalid HDD @see ComputerOneRoutine
+
+        ServerRackLocation rack = (ServerRackLocation) locations[3][1].getEast();
+        ServerRackLocation.Server server = rack.getServer()[3] = new ServerRackLocation.Server();
+
+        server.setHdd(new HardDrive("RACK:1#EAST#1#3"));
+
 
 
     }
