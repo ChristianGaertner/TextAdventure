@@ -35,9 +35,30 @@ public class GroundFloorLevel implements Level {
         generate(new LocationFactory() {
             @Override
             public Location generate(Coordinate coordinate) {
-                return new OfficeLocation();
+                OfficeLocation location = new OfficeLocation();
+
+                // Walls
+                if (coordinate.getX() == 0) {
+                    location.setWest(new WallLocation());
+                }
+
+                if (coordinate.getX() == 1) {
+                    location.setEast(new WallLocation());
+                }
+
+                if (coordinate.getY() == 0) {
+                    location.setNorth(new WallLocation());
+                }
+
+                if (coordinate.equals(1, 3)) {
+                    location.setSouth(new WallLocation());
+                }
+
+
+                return location;
             }
         }, 0, 1, 0, 3);
+
         generate(new LocationFactory() {
             @Override
             public Location generate(Coordinate coordinate) {
@@ -56,7 +77,27 @@ public class GroundFloorLevel implements Level {
         generate(new LocationFactory() {
             @Override
             public Location generate(Coordinate coordinate) {
-                return new ServerRoomLocation();
+                ServerRoomLocation location = new ServerRoomLocation();
+
+                // Walls
+                if (coordinate.getX() == 2) {
+                    location.setWest(new WallLocation());
+                }
+
+                if (coordinate.getX() == 5) {
+                    location.setEast(new WallLocation());
+                }
+
+                if (coordinate.getY() == 3 && coordinate.getX() != 3) {
+                    location.setSouth(new WallLocation());
+                }
+
+                if (coordinate.getY() == 0) {
+                    location.setNorth(new WallLocation());
+                }
+
+
+                return location;
             }
         }, 2, 5, 0, 3);
 
