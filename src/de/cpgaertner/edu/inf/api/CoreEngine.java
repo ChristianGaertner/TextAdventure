@@ -95,4 +95,14 @@ public class CoreEngine implements Runnable {
         }
 
     }
+
+
+    public static void quickSleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

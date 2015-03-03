@@ -1,18 +1,12 @@
 package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor;
 
-import de.cpgaertner.edu.inf.api.adapter.Adapter;
-import de.cpgaertner.edu.inf.api.command.Command;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.LocationFactory;
-import de.cpgaertner.edu.inf.api.level.player.Player;
-import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.*;
+import de.cpgaertner.edu.inf.games.datacenter.routines.ComputerOneRoutine;
 import lombok.Getter;
-
-import java.io.IOException;
-import java.util.Date;
 
 public class GroundFloorLevel implements Level {
 
@@ -198,70 +192,7 @@ public class GroundFloorLevel implements Level {
 
         ComputerLocation computer = (ComputerLocation) locations[0][0].getNorth();
 
-        computer.setRoutine(new InteractionRoutine() {
-            @Override
-            public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
-
-                adapter.send("Locked. Please login.");
-
-                adapter.sendf("Username: %s", player.getName());
-
-                adapter.send("Password hint:");
-                adapter.send("Password is 8 digits long, and contains the following numbers");
-                adapter.send("2x '1'");
-                adapter.send("2x '2'");
-                adapter.send("2x '3'");
-                adapter.send("2x '4'");
-                adapter.send("The '1's have to be separated by 1 digit,");
-                adapter.send("The '2's have to be seperated by 2 digit,");
-                adapter.send("The '3's have to be seperated by 3 digit,");
-                adapter.send("The '4's have to be seperated by 4 digit.");
-
-                String pwd = "INITIAL_WRONG_STRING";
-
-                while (!(pwd.equalsIgnoreCase("23421314") || pwd.equalsIgnoreCase("41312432"))) {
-                    if (!pwd.equals("INITIAL_WRONG_STRING")) {
-                        adapter.send("Wrong password.");
-                    }
-                    pwd = adapter.read("password: ");
-                }
-
-                Date date = new Date();
-
-                adapter.send("Login successful. Use 'log' to see the login history");
-
-                boolean run = true;
-                while (run) {
-                    String command = adapter.read("$");
-
-                    if (command.equalsIgnoreCase("log")) {
-                        adapter.send("Access log:");
-                        adapter.sendf("%s >> %s", player.getName(), date.toString());
-                        adapter.sendf("%s >> %s", "Bob", new Date(date.getTime() - 1000 * 60 * 45).toString());
-                        adapter.sendf("%s >> %s", "%$&TFKΩ¢", new Date(date.getTime() - 1000 * 60 * 60 * 12).toString());
-
-                        adapter.send("Error accessing log, invalid string for username given. Use 'repair log' and run 'log' again");
-
-                    } else if (command.equalsIgnoreCase("repair log")) {
-                        adapter.send("Invalid String found: '%$&TFKΩ¢'");
-                        adapter.send("Matching against user-database");
-                        adapter.send("Solving...");
-
-                        for (int i = 0; i < 500; i++) {
-                            adapter.put(".");
-                        }
-
-                        adapter.send("Solved.");
-                        adapter.send("Access log has been repaired!");
-                    }
-
-
-                }
-
-
-                return false;
-            }
-        });
+        computer.setRoutine(new ComputerOneRoutine());
 
 
     }
