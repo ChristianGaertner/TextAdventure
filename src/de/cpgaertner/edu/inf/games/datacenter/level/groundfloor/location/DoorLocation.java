@@ -4,7 +4,6 @@ import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
 import de.cpgaertner.edu.inf.api.level.BaseLocation;
 import de.cpgaertner.edu.inf.api.level.Item;
-import de.cpgaertner.edu.inf.api.level.player.InsufficientInventorySpaceException;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
 import lombok.AllArgsConstructor;
@@ -81,7 +80,7 @@ public class DoorLocation extends BaseLocation {
             if (getDoor().isOpen()) {
                 openDoorRoutine(player, adapter);
             } else {
-                lockDoorRoutine(player, adapter);
+                lockedDoorRoutine(player, adapter);
             }
 
             return false;
@@ -91,21 +90,8 @@ public class DoorLocation extends BaseLocation {
         protected void openDoorRoutine(Player player, Adapter adapter) throws IOException {
             switch (askYesNoQuestion("Do you want to lock it?", adapter)) {
                 case YES:
-                    Key key = null;
-                    try {
-                        key = door.generateKey(false);
-                    } catch (IllegalStateException e) {
-                        adapter.send("You need to provide a key to lock this door!");
-                        return;
-                    }
-
                     door.lock();
-
-                    try {
-                        player.getInventory().add(key);
-                    } catch (InsufficientInventorySpaceException e) {
-                        e.printStackTrace();
-                    }
+                    adapter.send("The door is now locked.");
                     break;
                 case NO: /* falls through */
                 default:
@@ -113,42 +99,17 @@ public class DoorLocation extends BaseLocation {
             }
         }
 
-        protected void lockDoorRoutine(Player player, Adapter adapter) throws IOException {
+        protected void lockedDoorRoutine(Player player, Adapter adapter) throws IOException {
 
             switch (askYesNoQuestion("Do you want to open it?", adapter)) {
                 case YES:
-                    adapter.send("Please choose a key!");
-                    if (player.getInventory().isEmpty()) {
-                        adapter.send("Looks like your inventory is empty. Then you cannot open this door, find the key first!");
-                        return;
-                    }
-                    adapter.send(player.getInventory().toString());
+                    Key k = chooseKey(player, adapter);
+                    boolean properKey = getDoor().openWith(k);
 
-                    boolean answerPending = true;
-                    int slot = 0;
-                    while (answerPending) {
-                        String slotString = adapter.read("slot #:");
-                        try {
-                            slot = Integer.parseInt(slotString);
-                            answerPending = false;
-                        } catch (NumberFormatException e) {
-                            answerPending = true;
-                        }
-
-                    }
-
-                    Item i = player.getInventory().getItems().get(slot);
-                    if (i instanceof Key) {
-                        boolean properKey = getDoor().openWith((Key) i);
-
-                        if (properKey) {
-                            adapter.send("The door is now open");
-                        } else {
-                            adapter.send("You provided the wrong key!");
-                        }
-
+                    if (properKey) {
+                        adapter.send("The door is now open");
                     } else {
-                        adapter.send("None key item provided");
+                        adapter.send("You provided the wrong key!");
                     }
 
                     break;
@@ -158,6 +119,39 @@ public class DoorLocation extends BaseLocation {
 
             }
 
+        }
+
+        protected Key chooseKey(Player player, Adapter adapter) throws IOException {
+            adapter.send("Please choose a key!");
+            if (player.getInventory().isEmpty()) {
+                adapter.send("Looks like your inventory is empty. Then you cannot open this door, find the key first!");
+                return null;
+            }
+
+            adapter.send(player.getInventory().toString());
+
+            boolean answerPending = true;
+            int slot = 0;
+            while (answerPending) {
+                String slotString = adapter.read("slot #:");
+                try {
+                    slot = Integer.parseInt(slotString);
+                    answerPending = false;
+                } catch (NumberFormatException e) {
+                    answerPending = true;
+                }
+
+            }
+
+            Item i = player.getInventory().getItems().get(slot);
+
+            if (i != null && i instanceof Key) {
+                return (Key) i;
+            } else {
+                adapter.send("None key item provided");
+            }
+
+            return null;
         }
 
     }
