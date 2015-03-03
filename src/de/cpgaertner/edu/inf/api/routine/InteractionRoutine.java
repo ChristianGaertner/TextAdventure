@@ -76,18 +76,7 @@ public abstract class InteractionRoutine implements Routine {
 
         adapter.send(player.getInventory().toString());
 
-        boolean answerPending = true;
-        int slot = 0;
-        while (answerPending) {
-            String slotString = adapter.read("slot #:");
-            try {
-                slot = Integer.parseInt(slotString);
-                answerPending = false;
-            } catch (NumberFormatException e) {
-                answerPending = true;
-            }
-
-        }
+        int slot = getNumber("slot #:", adapter);
 
         if (player.getInventory().getSlots() < slot) {
             adapter.send(irs.getNoSuchSlot());
@@ -104,6 +93,22 @@ public abstract class InteractionRoutine implements Routine {
         return null;
     }
 
+    protected int getNumber(String prompt, Adapter adapter) throws IOException {
+        boolean answerPending = true;
+        int number = 0;
+        while (answerPending) {
+            String numberString = adapter.read(prompt);
+            try {
+                number = Integer.parseInt(numberString);
+                answerPending = false;
+            } catch (NumberFormatException e) {
+                answerPending = true;
+            }
+
+        }
+
+        return number;
+    }
 
     @AllArgsConstructor @Data protected static class InventoryResponseSuite {
 
