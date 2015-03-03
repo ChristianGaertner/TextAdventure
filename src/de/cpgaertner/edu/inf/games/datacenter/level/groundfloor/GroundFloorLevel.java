@@ -79,21 +79,34 @@ public class GroundFloorLevel implements Level {
             public Location generate(Coordinate coordinate) {
                 ServerRoomLocation location = new ServerRoomLocation();
 
+                int x = coordinate.getX();
+                int y = coordinate.getY();
+
+
                 // Walls
-                if (coordinate.getX() == 2) {
+                if (x == 2) {
                     location.setWest(new WallLocation());
                 }
 
-                if (coordinate.getX() == 5) {
+                if (x == 5) {
                     location.setEast(new WallLocation());
                 }
 
-                if (coordinate.getY() == 3 && coordinate.getX() != 3) {
+                if (y == 3 && x != 3) {
                     location.setSouth(new WallLocation());
                 }
 
-                if (coordinate.getY() == 0) {
+                if (y == 0) {
                     location.setNorth(new WallLocation());
+                }
+
+                // Server
+                if ((x == 2 || x == 3 || x == 4) && y != 3) {
+                    location.setEast(new ServerRackLocation().useDefaultRoutine());
+                }
+
+                if ((x == 3 || x == 4 || x == 5) && y != 3) {
+                    location.setWest(new ServerRackLocation().useDefaultRoutine());
                 }
 
 
