@@ -21,6 +21,17 @@ public class ShellAdapter implements Adapter {
         System.out.println(msg);
     }
 
+    /**
+     * Send, without a linebreak
+     *
+     * @param msg msg to send
+     * @throws java.io.IOException
+     */
+    @Override
+    public void put(String msg) throws IOException {
+        System.out.print(msg);
+    }
+
     @Override
     public void sendf(String msg, Object... args) throws IOException {
         System.out.printf(msg, args);
