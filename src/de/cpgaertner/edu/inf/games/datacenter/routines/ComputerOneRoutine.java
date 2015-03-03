@@ -2,8 +2,12 @@ package de.cpgaertner.edu.inf.games.datacenter.routines;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
+import de.cpgaertner.edu.inf.api.level.Coordinate;
+import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRackLocation;
+import de.cpgaertner.edu.inf.games.datacenter.level.item.HardDrive;
 
 import java.io.IOException;
 import java.util.Date;
@@ -114,6 +118,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
         if (player.getMetaData(KEY_RACK_STATUS_1) == null) {
             player.setMetaData(KEY_RACK_STATUS_1, RACK_STATUS_SUSPENDED_INVALIDCONF);
             player.setMetaData(KEY_RACK_CONN_1, RACK_DISCONNECTED);
+            player.setMetaValue(KEY_LOG_STATUS, LOG_INVALID);
         }
     }
 
@@ -162,6 +167,16 @@ public class ComputerOneRoutine extends InteractionRoutine {
 
     protected static void cmdMonitorRackOne(Player player, Adapter adapter) throws IOException {
 
+        Level level = player.getLevel();
+
+        ServerRackLocation rack = (ServerRackLocation) level.getAt(new Coordinate(3, 1)).getWest();
+
+        ServerRackLocation.Server server = rack.getServer()[3];
+        HardDrive drive = server.getHdd();
+
+        if (drive == null) {
+            player.setMetaValue(KEY_RACK_STATUS_1, RACK_STATUS_CRASH_MISSING_HDD);
+        }
 
         adapter.send("SERVER RACK 1.");
         adapter.send("TRACEROUTE:");
