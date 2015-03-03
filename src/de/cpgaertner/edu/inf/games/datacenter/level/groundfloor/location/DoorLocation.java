@@ -128,29 +128,14 @@ public class DoorLocation extends BaseLocation {
 
         protected Key chooseKey(Player player, Adapter adapter) throws IOException {
             adapter.send("Please choose a key!");
-            if (player.getInventory().isEmpty()) {
-                adapter.send("Looks like your inventory is empty. Then you cannot open this door, find the key first!");
+
+            Item i = getItem(InventoryResponseSuite.DEFAULT, player, adapter);
+
+            if (i == null) {
                 return null;
             }
 
-            adapter.send(player.getInventory().toString());
-
-            boolean answerPending = true;
-            int slot = 0;
-            while (answerPending) {
-                String slotString = adapter.read("slot #:");
-                try {
-                    slot = Integer.parseInt(slotString);
-                    answerPending = false;
-                } catch (NumberFormatException e) {
-                    answerPending = true;
-                }
-
-            }
-
-            Item i = player.getInventory().getItems().get(slot);
-
-            if (i != null && i instanceof Key) {
+            if (i instanceof Key) {
                 return (Key) i;
             } else {
                 adapter.send("None key item provided");

@@ -1,7 +1,11 @@
 package de.cpgaertner.edu.inf.api.routine;
 
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
+import de.cpgaertner.edu.inf.api.level.Item;
+import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.io.IOException;
 
@@ -61,5 +65,59 @@ public abstract class InteractionRoutine implements Routine {
                 adapter.send("Please choose one of the possible answers!");
             }
         }
+    }
+
+    protected Item getItem(InventoryResponseSuite irs, Player player, Adapter adapter) throws IOException {
+
+        if (player.getInventory().isEmpty()) {
+            adapter.send(irs.getEmptyInventory());
+            return null;
+        }
+
+        adapter.send(player.getInventory().toString());
+
+        boolean answerPending = true;
+        int slot = 0;
+        while (answerPending) {
+            String slotString = adapter.read("slot #:");
+            try {
+                slot = Integer.parseInt(slotString);
+                answerPending = false;
+            } catch (NumberFormatException e) {
+                answerPending = true;
+            }
+
+        }
+
+        if (player.getInventory().getSlots() < slot) {
+            adapter.send(irs.getNoSuchSlot());
+            return null;
+        }
+
+        Item i = player.getInventory().getItems().get(slot);
+
+        if (i != null) {
+            return i;
+        }
+
+        adapter.send(irs.getNoItemAtSlot());
+        return null;
+    }
+
+
+    @AllArgsConstructor @Data protected static class InventoryResponseSuite {
+
+        public static final InventoryResponseSuite DEFAULT = new InventoryResponseSuite(
+                "Your inventory looks empty...",
+                "There isn't an item at this slot.",
+                "No such slot."
+        );
+
+        protected String emptyInventory;
+
+        protected String noItemAtSlot;
+
+        protected String noSuchSlot;
+
     }
 }
