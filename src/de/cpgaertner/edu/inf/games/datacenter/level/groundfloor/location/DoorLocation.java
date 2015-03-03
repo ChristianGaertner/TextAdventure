@@ -134,7 +134,7 @@ public class DoorLocation extends BaseLocation {
 
             ItemSlotPaylod i = getItem(InventoryResponseSuite.DEFAULT, player, adapter);
 
-            if (i.getItem() == null) {
+            if (i == null) {
                 return null;
             }
 

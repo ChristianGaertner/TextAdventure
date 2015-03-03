@@ -197,7 +197,7 @@ public class GroundFloorLevel implements Level {
 
         // rack with invalid HDD @see ComputerOneRoutine
 
-        ServerRackLocation rack = (ServerRackLocation) locations[3][1].getEast();
+        ServerRackLocation rack = (ServerRackLocation) locations[3][1].getWest();
         ServerRackLocation.Server server = rack.getServer()[3] = new ServerRackLocation.Server();
 
         server.setHdd(new HardDrive("RACK:1#EAST#1#3"));

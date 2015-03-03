@@ -70,6 +70,9 @@ public class ServerRackLocation extends BaseLocation {
                     switch (askYesNoQuestion("Do you want to insert a harddrive?", adapter)) {
                         case YES:
                             ItemSlotPaylod i = getItem(InventoryResponseSuite.DEFAULT, player, adapter);
+                            if (i == null) {
+                                return false;
+                            }
                             if (i.getItem() instanceof HardDrive) {
                                 setHdd((HardDrive) i.getItem());
                                 player.getInventory().remove(i.getSlot());
