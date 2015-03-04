@@ -6,6 +6,7 @@ import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
+import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRackLocation;
 import de.cpgaertner.edu.inf.games.datacenter.level.item.HardDrive;
 
@@ -42,7 +43,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
     public static final String KEY_COMPUTER_1_LOGIN = "COMPUTER_1_LOGIN";
 
     @Override
-    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+    public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
 
         loginRoutine(player, adapter);
@@ -56,7 +57,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
         prompt(player, adapter);
 
 
-        return false;
+        return null;
     }
 
     protected static void prompt(Player player, Adapter adapter) throws IOException {
@@ -162,7 +163,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
 
         adapter.send("Looks like the hacker has denied all remote access to the server and shutdown the first server rack");
         adapter.send("Before rebooting the server and allowing remote ctrl, you should check what the server is doing.");
-        adapter.send("Run './monitor.sh SERVER RACK 1");
+        adapter.send("Run './monitor.sh SERVER RACK 1'");
     }
 
     protected static void cmdMonitorRackOne(Player player, Adapter adapter) throws IOException {
@@ -176,8 +177,10 @@ public class ComputerOneRoutine extends InteractionRoutine {
 
         if (drive == null) {
             int s = player.getMetaValue(KEY_RACK_STATUS_1);
-            if (s == RACK_STATUS_SUSPENDED_INVALIDCONF || s == RACK_STATUS_BOOTED) {
+            if (s != RACK_STATUS_BOOTED) {
                 player.setMetaValue(KEY_RACK_STATUS_1, RACK_STATUS_SUS_MISSING_HDD);
+            } else {
+                player.setMetaValue(KEY_RACK_STATUS_1, RACK_STATUS_CRASH_MISSING_HDD);
             }
         }
 
@@ -215,6 +218,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
             adapter.send("===HINT===");
             adapter.send("In order to grab the harddrive, first go to x=3 y=1");
             adapter.send("then interact with the rack to your west and remove the HDD.");
+            adapter.send("Then comeback to the office and monitor the server again, checking for firmware issues.");
 
         }
         else if (player.getMetaValue(KEY_RACK_STATUS_1) == RACK_STATUS_CRASH_MISSING_HDD) {
@@ -261,16 +265,35 @@ public class ComputerOneRoutine extends InteractionRoutine {
     }
 
     protected static void cmdConfigureRackOne(Player player, Adapter adapter) throws IOException {
-        if (player.getMetaValue(KEY_RACK_STATUS_1) == RACK_STATUS_SUS_MISSING_HDD) {
+        int s = player.getMetaValue(KEY_RACK_STATUS_1);
+        if (s == RACK_STATUS_SUS_MISSING_HDD || s == RACK_STATUS_CRASH_MISSING_HDD) {
             adapter.send("Configure SERVER RACK 1");
             adapter.send("Missing HDD");
             adapter.send("Abort.");
+        } else if (s == RACK_STATUS_BOOTED) {
+            adapter.send("SERVER RACK 1 is booted. Shut it down first!");
         } else {
-            panic(adapter);
+            adapter.send("Configuring SERVER RACK 1");
+            for (int i = 0; i < 10; i++) {
+
+                quickSleep(100);
+
+                adapter.put(".");
+            }
+            adapter.send("");
+            adapter.send("Done.");
+            adapter.send("Boot it up by running './boot SERVER RACK 1'");
         }
     }
 
     protected static void cmdBootRackOne(Player player, Adapter adapter) throws IOException {
+        int s = player.getMetaValue(KEY_RACK_STATUS_1);
+
+        if (s == RACK_STATUS_CRASH_MISSING_HDD || s == RACK_STATUS_BOOTED) {
+            adapter.send("Cannot boot, either running or crashed. Shut it down first");
+            return;
+        }
+
         adapter.send("Starting boot sequence");
 
         for (int i = 0; i < 15; i++) {
@@ -283,9 +306,9 @@ public class ComputerOneRoutine extends InteractionRoutine {
         adapter.send("Check status with './monitor.sh SERVER RACK 1'");
         adapter.send("Check DataCenter Status on the Status Monitor in this room!");
 
-        if (player.getMetaValue(KEY_RACK_STATUS_1) == RACK_STATUS_SUSPENDED_INVALIDCONF) {
+        if (s == RACK_STATUS_SUSPENDED_INVALIDCONF) {
             player.setMetaValue(KEY_RACK_STATUS_1, RACK_STATUS_BOOTED);
-        } else if (player.getMetaValue(KEY_RACK_STATUS_1) == RACK_STATUS_SUS_MISSING_HDD) {
+        } else if (s == RACK_STATUS_SUS_MISSING_HDD) {
             player.setMetaValue(KEY_RACK_STATUS_1, RACK_STATUS_CRASH_MISSING_HDD);
         } else {
             player.setMetaValue(KEY_RACK_STATUS_1, RACK_STATUS_BOOTED);

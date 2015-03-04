@@ -59,17 +59,17 @@ public class RootRoutine implements Routine {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+    public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
         if (cmd == null) {
             adapter.send("Type something, try 'help' to get started!");
-            return true;
+            return this;
         }
 
         if (cmdHandler.containsKey(cmd.getClass())) {
             cmdHandler.get(cmd.getClass())
                     .handle(player, cmd);
-            return true;
+            return this;
         }
 
         if (cmd.getName().equalsIgnoreCase("help")) {
@@ -78,10 +78,10 @@ public class RootRoutine implements Routine {
                 cmd.respond(p.getHelp());
             }
 
-            return true;
+            return this;
         }
 
         adapter.sendf("Unknow comand <%s>, try 'help' to get started", cmd.getName());
-        return true;
+        return this;
     }
 }

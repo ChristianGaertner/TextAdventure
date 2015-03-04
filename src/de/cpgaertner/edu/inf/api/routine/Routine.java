@@ -13,5 +13,5 @@ public interface Routine {
 
     public CommandSystemManager getCommandSystemManager();
 
-    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException;
+    public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException;
 }

@@ -76,15 +76,17 @@ public class CoreEngine implements Runnable {
 
                 }
 
-                boolean exit = !activeRoutine.handle(game.getPlayer(), cmd, adapter);
-                if (exit) {
-                    previousRoutine = activeRoutine;
+                Routine next = activeRoutine.handle(game.getPlayer(), cmd, adapter);
+                previousRoutine = activeRoutine;
+                if (next == null) {
                     if (activeRoutine == root) {
                         // This would be an infinite loop
                         log.warning("Infinite Loop detected. Host Routine, declines action. Falling back to RootRoutine");
                         root = new RootRoutine(adapter);
                     }
                     activeRoutine = root;
+                } else {
+                    activeRoutine = next;
                 }
             }
 

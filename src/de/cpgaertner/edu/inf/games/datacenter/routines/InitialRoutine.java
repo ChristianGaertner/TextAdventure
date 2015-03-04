@@ -28,7 +28,7 @@ public class InitialRoutine implements Routine {
     }
 
     @Override
-    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+    public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
         /*
         An initial routine should never receive a command!
@@ -68,6 +68,6 @@ public class InitialRoutine implements Routine {
 
 
         // This Routine cannot handle commands, give the handle back to the parent.
-        return false;
+        return null;
     }
 }

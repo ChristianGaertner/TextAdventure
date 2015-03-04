@@ -46,16 +46,14 @@ public class ServerRackLocation extends BaseLocation {
         protected ServerRackLocation serverRack;
 
         @Override
-        public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+        public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
             adapter.sendf("This Rack houses %s server.", getServerRack().getServer().length);
             adapter.send("Which one do you want to access?");
             int servernumber = getInteger("server #:", 0, getServerRack().getServer().length, adapter);
 
             Server server = getServerRack().getServer()[servernumber];
 
-            server.getRoutine().handle(player, null, adapter);
-
-            return false;
+            return server.getRoutine();
         }
     }
 
@@ -65,14 +63,14 @@ public class ServerRackLocation extends BaseLocation {
 
         protected Routine routine = new InteractionRoutine() {
             @Override
-            public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+            public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
                 if (hdd == null) {
                     adapter.send("This server doesn't hold a harddrive!");
                     switch (askYesNoQuestion("Do you want to insert a harddrive?", adapter)) {
                         case YES:
                             ItemSlotPaylod i = getItem(InventoryResponseSuite.DEFAULT, player, adapter);
                             if (i == null) {
-                                return false;
+                                return null;
                             }
                             if (i.getItem() instanceof HardDrive) {
                                 setHdd((HardDrive) i.getItem());
@@ -100,7 +98,7 @@ public class ServerRackLocation extends BaseLocation {
                     }
                 }
 
-                return false;
+                return null;
             }
         };
 

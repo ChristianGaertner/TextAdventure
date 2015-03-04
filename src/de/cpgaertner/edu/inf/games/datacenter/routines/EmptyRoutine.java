@@ -20,8 +20,8 @@ public class EmptyRoutine implements Routine {
     }
 
     @Override
-    public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+    public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
         player.setName("Christian");
-        return false;
+        return null;
     }
 }

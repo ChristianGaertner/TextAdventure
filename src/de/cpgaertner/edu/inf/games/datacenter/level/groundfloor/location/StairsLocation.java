@@ -6,6 +6,7 @@ import de.cpgaertner.edu.inf.api.level.BaseLocation;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
+import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +34,7 @@ public class StairsLocation extends BaseLocation {
         @Getter @Setter protected StairsLocation stairs;
 
         @Override
-        public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+        public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
 
             switch (askQuestion("Do you want to go up or down?", "up", "down", adapter)) {
@@ -55,7 +56,7 @@ public class StairsLocation extends BaseLocation {
                     adapter.send("To your command master!");
             }
 
-            return false;
+            return null;
         }
     }
 

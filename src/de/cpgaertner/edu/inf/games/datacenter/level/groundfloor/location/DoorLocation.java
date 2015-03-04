@@ -6,6 +6,7 @@ import de.cpgaertner.edu.inf.api.level.BaseLocation;
 import de.cpgaertner.edu.inf.api.level.Item;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
+import de.cpgaertner.edu.inf.api.routine.Routine;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -76,7 +77,7 @@ public class DoorLocation extends BaseLocation {
         protected DoorLocation door;
 
         @Override
-        public boolean handle(Player player, Command cmd, Adapter adapter) throws IOException {
+        public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
             adapter.sendf("This door is %s.",
                     getDoor().isOpen() ? "open" : "locked"
@@ -88,7 +89,7 @@ public class DoorLocation extends BaseLocation {
                 lockedDoorRoutine(player, adapter);
             }
 
-            return false;
+            return null;
         }
 
 
