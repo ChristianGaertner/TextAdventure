@@ -16,11 +16,11 @@ public class Greetings extends RandomString {
     public Greetings() {
         data = new ArrayList<>();
 
-        data.add("Hi.");
+        data.add("Hi. How are you?");
         data.add("How are you?");
         data.add("What's up?");
         data.add("How you doin?");
-        data.add("Hey.");
+        data.add("Hey. How you doin?");
 
     }
 }
