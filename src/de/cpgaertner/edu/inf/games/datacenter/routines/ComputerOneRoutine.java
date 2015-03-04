@@ -42,15 +42,20 @@ public class ComputerOneRoutine extends InteractionRoutine {
 
     public static final String KEY_COMPUTER_1_LOGIN = "COMPUTER_1_LOGIN";
 
+    public boolean loggedIn = false;
+
     @Override
     public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
 
-        loginRoutine(player, adapter);
+        if (!this.loggedIn) {
+            loginRoutine(player, adapter);
+            this.loggedIn = true;
+            player.setMetaData(KEY_COMPUTER_1_LOGIN, new Date());
+            adapter.send("Login successful. Use 'log' to see the login history");
+        }
 
-        player.setMetaData(KEY_COMPUTER_1_LOGIN, new Date());
 
-        adapter.send("Login successful. Use 'log' to see the login history");
 
         init(player, adapter);
 
@@ -58,6 +63,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
 
 
         if (exit) {
+            this.loggedIn = false;
             return null;
         }
 
