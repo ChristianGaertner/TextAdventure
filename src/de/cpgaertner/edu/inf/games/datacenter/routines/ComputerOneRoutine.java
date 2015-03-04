@@ -54,39 +54,40 @@ public class ComputerOneRoutine extends InteractionRoutine {
 
         init(player, adapter);
 
-        prompt(player, adapter);
+        boolean exit = prompt(player, adapter);
 
 
-        return null;
+        if (exit) {
+            return null;
+        }
+
+        return this;
     }
 
-    protected static void prompt(Player player, Adapter adapter) throws IOException {
-        boolean run = true;
+    protected static boolean prompt(Player player, Adapter adapter) throws IOException {
 
-        while (run) {
-            String command = adapter.read("$");
+        String command = adapter.read("$");
 
-            if (command.equalsIgnoreCase("exit")) {
-                adapter.send("Leaving computer screen...");
-                run = false;
-            } else if (command.equalsIgnoreCase("log")) {
-               cmdAccessLog(player, adapter);
-            } else if (command.equalsIgnoreCase("repair log")) {
-                cmdRepairLog(player, adapter);
-            }  else if (command.equalsIgnoreCase("history peter")) {
-                cmdHistoryPeter(player, adapter);
-            }  else if (command.equalsIgnoreCase("./monitor.sh SERVER RACK 1")) {
-                cmdMonitorRackOne(player, adapter);
-            }  else if (command.equalsIgnoreCase("./configure.sh SERVER RACK 1")) {
-                cmdConfigureRackOne(player, adapter);
-            }  else if (command.equalsIgnoreCase("./boot.sh SERVER RACK 1")) {
-                cmdBootRackOne(player, adapter);
-            } else {
-                adapter.sendf("No such command '%s'", command);
-            }
-
-
+        if (command.equalsIgnoreCase("exit")) {
+            adapter.send("Leaving computer screen...");
+            return true;
+        } else if (command.equalsIgnoreCase("log")) {
+           cmdAccessLog(player, adapter);
+        } else if (command.equalsIgnoreCase("repair log")) {
+            cmdRepairLog(player, adapter);
+        }  else if (command.equalsIgnoreCase("history peter")) {
+            cmdHistoryPeter(player, adapter);
+        }  else if (command.equalsIgnoreCase("./monitor.sh SERVER RACK 1")) {
+            cmdMonitorRackOne(player, adapter);
+        }  else if (command.equalsIgnoreCase("./configure.sh SERVER RACK 1")) {
+            cmdConfigureRackOne(player, adapter);
+        }  else if (command.equalsIgnoreCase("./boot.sh SERVER RACK 1")) {
+            cmdBootRackOne(player, adapter);
+        } else {
+            adapter.sendf("No such command '%s'", command);
         }
+
+        return false;
     }
 
     protected static void loginRoutine(Player player, Adapter adapter) throws IOException {

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class InteractCommandHandler implements CommandHandler<InteractCommand> {
     @Override
-    public void handle(Player player, InteractCommand cmd) throws IOException {
+    public Routine handle(Player player, InteractCommand cmd) throws IOException {
         assert player != null;
         assert cmd != null;
 
@@ -23,7 +23,7 @@ public class InteractCommandHandler implements CommandHandler<InteractCommand> {
             target = player.get(dir);
             if (target == null) {
                 cmd.respondf("No location to interact in the %s.", dir);
-                return;
+                return null;
             }
         }
 
@@ -31,11 +31,11 @@ public class InteractCommandHandler implements CommandHandler<InteractCommand> {
 
         if (interaction == null) {
             cmd.respondf("You cannot interact with the location in the %s", dir);
-            return;
+            return null;
         }
 
 
-        interaction.handle(player, null, cmd.getAdapter());
+        return interaction.handle(player, null, cmd.getAdapter());
 
     }
 }

@@ -5,13 +5,14 @@ import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.DoorLocation;
 
 import java.io.IOException;
 
 public class ForceOpenAllCommandHandler implements CommandHandler<ForceOpenAllCommand> {
     @Override
-    public void handle(Player player, ForceOpenAllCommand cmd) throws IOException {
+    public Routine handle(Player player, ForceOpenAllCommand cmd) throws IOException {
         assert player != null;
         assert cmd != null;
 
@@ -38,6 +39,8 @@ public class ForceOpenAllCommandHandler implements CommandHandler<ForceOpenAllCo
 
             }
         }
+
+        return null;
 
     }
 

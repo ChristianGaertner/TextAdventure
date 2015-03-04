@@ -4,12 +4,13 @@ import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.routine.Routine;
 
 import java.io.IOException;
 
 public class GoCommandHandler implements CommandHandler<GoCommand> {
     @Override
-    public void handle(Player player, GoCommand cmd) throws IOException {
+    public Routine handle(Player player, GoCommand cmd) throws IOException {
         assert player != null;
         assert cmd != null;
 
@@ -29,12 +30,13 @@ public class GoCommandHandler implements CommandHandler<GoCommand> {
                     newPos,
                     newLoc.getClass().getSimpleName()
                 );
-                return;
+                return null;
             }
 
         }
 
         cmd.respondf("You cannot walk into the location in the %s", cmd.getDirection());
 
+        return null;
     }
 }

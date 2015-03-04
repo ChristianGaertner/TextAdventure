@@ -5,12 +5,13 @@ import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.routine.Routine;
 
 import java.io.IOException;
 
 public class DebuggerCommandHandler implements CommandHandler<DebuggerCommand> {
     @Override
-    public void handle(Player player, DebuggerCommand cmd) throws IOException {
+    public Routine handle(Player player, DebuggerCommand cmd) throws IOException {
         assert player != null;
         assert cmd != null;
 
@@ -26,5 +27,6 @@ public class DebuggerCommandHandler implements CommandHandler<DebuggerCommand> {
         cmd.getAdapter().sendf("inTile[%s]=%s", inTile.getClass().getSimpleName(), inTile);
         cmd.getAdapter().sendf("nextTile[%s]=%s", nextTile.getClass().getSimpleName(), nextTile);
 
+        return null;
     }
 }

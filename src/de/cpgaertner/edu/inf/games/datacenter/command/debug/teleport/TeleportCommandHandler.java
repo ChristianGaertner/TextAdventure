@@ -2,12 +2,13 @@ package de.cpgaertner.edu.inf.games.datacenter.command.debug.teleport;
 
 import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;
 import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.routine.Routine;
 
 import java.io.IOException;
 
 public class TeleportCommandHandler implements CommandHandler<TeleportCommand> {
     @Override
-    public void handle(Player player, TeleportCommand cmd) throws IOException {
+    public Routine handle(Player player, TeleportCommand cmd) throws IOException {
         assert player != null;
         assert cmd != null;
 
@@ -22,6 +23,8 @@ public class TeleportCommandHandler implements CommandHandler<TeleportCommand> {
         player.setPosition(cmd.getDestination());
 
         cmd.getAdapter().sendf("You are now at %s.", cmd.getDestination());
+
+        return null;
 
     }
 }
