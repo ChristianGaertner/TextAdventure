@@ -10,10 +10,12 @@ import lombok.Setter;
 import lombok.extern.java.Log;
 
 import java.io.IOException;
+import java.util.Random;
 
 @Log
 public class CoreEngine implements Runnable {
 
+    public static final Random RANDOM = new Random();
 
     protected Game game;
     @Getter protected static Adapter adapter;
