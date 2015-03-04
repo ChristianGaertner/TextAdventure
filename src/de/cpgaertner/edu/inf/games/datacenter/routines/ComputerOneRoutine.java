@@ -7,6 +7,7 @@ import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
+import de.cpgaertner.edu.inf.api.parsing.DumpParser;
 import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRackLocation;
@@ -52,7 +53,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
     public boolean loggedIn = false;
 
     public ComputerOneRoutine(Adapter adapter) {
-        this.commandSystemManager = new BasicCommandSystemManager(adapter);
+        this.commandSystemManager = new BasicCommandSystemManager(new DumpParser(), adapter);
     }
 
     @Override
