@@ -64,17 +64,18 @@ public class ComputerOneRoutine extends InteractionRoutine {
     @Override
     public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {
 
+        init(player, adapter);
 
         if (!this.loggedIn) {
             loginRoutine(player, adapter);
             this.loggedIn = true;
             player.setMetaData(KEY_COMPUTER_1_LOGIN, new Date());
             adapter.send("Login successful. Use 'log' to see the login history");
+            return this;
         }
 
 
 
-        init(player, adapter);
 
         boolean exit = prompt(cmd, player, adapter);
 
