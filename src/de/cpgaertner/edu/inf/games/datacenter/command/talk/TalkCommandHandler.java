@@ -150,7 +150,7 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
 
 
-        return null;
+        return new Thought(string, "Well well...");
     }
 
 
