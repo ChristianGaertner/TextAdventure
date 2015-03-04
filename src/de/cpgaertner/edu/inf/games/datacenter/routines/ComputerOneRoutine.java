@@ -67,11 +67,14 @@ public class ComputerOneRoutine extends InteractionRoutine {
         init(player, adapter);
 
         if (!this.loggedIn) {
-            loginRoutine(player, adapter);
-            this.loggedIn = true;
-            player.setMetaData(KEY_COMPUTER_1_LOGIN, new Date());
-            adapter.send("Login successful. Use 'log' to see the login history");
-            return this;
+            this.loggedIn = loginRoutine(player, adapter);
+            if (loggedIn) {
+                player.setMetaData(KEY_COMPUTER_1_LOGIN, new Date());
+                adapter.send("Login successful. Use 'log' to see the login history");
+                return this;
+            }
+            adapter.send("Leaving computer screen...");
+            return null;
         }
 
 
@@ -112,7 +115,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
         return false;
     }
 
-    protected static void loginRoutine(Player player, Adapter adapter) throws IOException {
+    protected static boolean loginRoutine(Player player, Adapter adapter) throws IOException {
         adapter.send("Locked. Please login.");
 
         adapter.sendf("Username: %s", player.getName());
@@ -133,9 +136,16 @@ public class ComputerOneRoutine extends InteractionRoutine {
         while (!(pwd.equalsIgnoreCase("23421314") || pwd.equalsIgnoreCase("41312432"))) {
             if (!pwd.equals("INITIAL_WRONG_STRING")) {
                 adapter.send("Wrong password.");
+                adapter.send("Type 'exit' to cancel");
             }
             pwd = adapter.read("password: ");
+
+            if (pwd.equalsIgnoreCase("exit")) {
+                return false;
+            }
         }
+
+        return true;
     }
 
     protected static void init(Player player, Adapter adapter) throws IOException {
