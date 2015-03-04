@@ -71,8 +71,13 @@ public class CoreEngine implements Runnable {
 
                     }
 
-                    // THIS BLOCKS until the user hits enter!
-                    cmd = csm.get(activeRoutine.getPrompt());
+                    if (csm == null) {
+                        // The routine handles input for itself!
+                        cmd = null;
+                    } else {
+                        // THIS BLOCKS until the user hits enter!
+                        cmd = csm.get(activeRoutine.getPrompt());
+                    }
 
                 }
 

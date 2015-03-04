@@ -67,8 +67,13 @@ public class RootRoutine implements Routine {
         }
 
         if (cmdHandler.containsKey(cmd.getClass())) {
-            return cmdHandler.get(cmd.getClass())
+            Routine next = cmdHandler.get(cmd.getClass())
                     .handle(player, cmd);
+            if (next == null) {
+                return this;
+            } else {
+                return next;
+            }
         }
 
         if (cmd.getName().equalsIgnoreCase("help")) {
