@@ -16,7 +16,11 @@ public class BasicCommandSystemManager implements CommandSystemManager {
     protected List<CommandParser> cmdParser;
 
     public BasicCommandSystemManager(Adapter adapter) {
-        this.lastHopeParser = new LastHopeParser();
+        this(new LastHopeParser(), adapter);
+    }
+
+    public BasicCommandSystemManager(LastHopeParser lastHopeParser, Adapter adapter) {
+        this.lastHopeParser = lastHopeParser;
         this.adapter = adapter;
         this.lastHopeParser.setAdapter(adapter);
         this.cmdParser = new ArrayList<>();
