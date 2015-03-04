@@ -2,6 +2,8 @@ package de.cpgaertner.edu.inf.api.level;
 
 public interface Level {
 
+    public static final String KEY_QUEST = "PLAYER_QUEST_ID";
+
     /**
      * Return the Name of the Level
      * @return Level Name

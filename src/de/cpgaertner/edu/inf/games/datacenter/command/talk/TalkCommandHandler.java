@@ -9,6 +9,8 @@ import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.GoodFeelings;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.Greetings;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.OfficeLocation;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRoomLocation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,7 +20,10 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static de.cpgaertner.edu.inf.api.level.Level.KEY_QUEST;
 import static de.cpgaertner.edu.inf.games.datacenter.command.talk.TalkCommandHandler.State.*;
+import static de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel.QUEST_FIND_COMPUTER;
+import static de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel.QUEST_REPLACE_HDD;
 import static de.cpgaertner.edu.inf.games.datacenter.routines.ComputerOneRoutine.KEY_LOG_STATUS;
 import static de.cpgaertner.edu.inf.games.datacenter.routines.ComputerOneRoutine.LOG_INVALID;
 
@@ -79,6 +84,10 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         if (string.equals("%%debug_dump_state%%") || (string.equals("dds") && Main.DEBUG)) {
             return new Thought(string, getState().toString());
+        }
+
+        if (string.equals("exit") || string.contains("bye")) {
+            return new Thought(true, string, "Good bye!", null);
         }
 
         if (getState().contains(Q_FEELINGS)) {
@@ -163,17 +172,23 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             if (string.startsWith("where")) {
                 if (string.contains("office") || string.contains("control")) {
                     return new Thought(string, "The office is down the hallway to the west, door facing north");
-                } else if (string.contains("server") || (string.contains("rack") && !string.matches(RACK_POS_REGEX_STRING)) || string.contains("datacenter")) {
+                }
+                if (string.contains("server") || (string.contains("rack") && !string.matches(RACK_POS_REGEX_STRING)) || string.contains("datacenter")) {
                     return new Thought(string, "The serverroom is in the middle from the hallway, door facing north");
-                } else if (string.contains("basement")) {
+                }
+                if (string.contains("basement")) {
                     return new Thought(string, "Downstairs. The staircase is on the eastern side of the hallway");
-                } else if (string.contains("switch")) {
+                }
+                if (string.contains("switch")) {
                     return new Thought(string, "The switches are on the west wall of the serverroom.");
-                } else if (string.contains("fuse")) {
+                }
+                if (string.contains("fuse")) {
                     return new Thought(string, "The fuseboxes are on the east wall of the serverroom.");
-                } else if (string.contains("vent")) {
+                }
+                if (string.contains("vent")) {
                     return new Thought(string, "The only vent is on the east wall of the serverroom.");
-                } else if (string.matches(RACK_POS_REGEX_STRING)) {
+                }
+                if (string.matches(RACK_POS_REGEX_STRING)) {
                     Matcher matcher = RACK_POS_REGEX.matcher(string);
                     String rack = matcher.group(1);
                     String direction = matcher.group(2);
@@ -220,7 +235,9 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
                 }
             }
 
-        } else if (string.contains("who")) {
+        }
+
+        if (string.contains("who")) {
 
             if (string.contains("are you")) {
                 return new Thought(string, "I'm Bob, I work in this datacenter!");
@@ -234,10 +251,35 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
                 }
             }
 
-        } else if (string.contains("when")) {
+        }
+
+        if (string.contains("when")) {
             return new Thought(string, "Time is not absolute, it's relative, so the answer has to be 'anytime'.");
-        } else if (string.contains("why")) {
+        }
+
+        if (string.contains("why")) {
             return new Thought(string, "How long is a piece of string...?");
+        }
+
+        if (string.contains("what")) {
+            if (string.contains("do")) {
+                switch (player.getMetaValue(KEY_QUEST)) {
+                    case QUEST_FIND_COMPUTER:
+                        if (player.getLevel().getAt(player.getPosition()) instanceof OfficeLocation) {
+                            return new Thought(string, "The computer is at (0,0) to the north, go ahead and interact with it!");
+                        } else {
+                            return new Thought(string, "You should look into the office ad find the computer!");
+                        }
+                    case QUEST_REPLACE_HDD:
+                        if (player.getLevel().getAt(player.getPosition()) instanceof ServerRoomLocation) {
+                            return new Thought(string, "You should replace the HDD of the Server RACK:1#EAST#1#3");
+                        } else {
+                            return new Thought(string, "You should look into the serverroom");
+                        }
+                    default:
+                        return new Thought(string, "Just look around a bit. I cannot tell you everything!");
+                }
+            }
         }
 
         getState().add(MISUNDERSTOOD);

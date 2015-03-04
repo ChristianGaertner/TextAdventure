@@ -3,10 +3,12 @@ package de.cpgaertner.edu.inf.games.datacenter.routines;
 import de.cpgaertner.edu.inf.api.ExitRequestedException;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.Command;
+import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
 import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
 import de.cpgaertner.edu.inf.api.routine.Routine;
+import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -67,6 +69,7 @@ public class InitialRoutine implements Routine {
                 "'go west' a couple of times\nand then go through the door 'go north'.");
 
 
+        player.setMetaValue(Level.KEY_QUEST, GroundFloorLevel.QUEST_FIND_COMPUTER);
         // This Routine cannot handle commands, give the handle back to the parent.
         return null;
     }

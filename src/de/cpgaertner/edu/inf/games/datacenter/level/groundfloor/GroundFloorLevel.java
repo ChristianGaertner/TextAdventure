@@ -20,6 +20,12 @@ public class GroundFloorLevel implements Level {
 
     protected Location[][] locations;
 
+    public static final int QUEST_FIND_COMPUTER = 0xAA00AA;
+    public static final int QUEST_REPLACE_HDD = 0xAA00AB;
+    public static final int QUEST_BOOT_RACK_ONE = 0xAA00AC;
+    public static final int QUEST_ALLOW_REMOTE_RACK_ONE = 0xAA00AC;
+
+
     /**
      * Initialize the Level
      * <p/>
