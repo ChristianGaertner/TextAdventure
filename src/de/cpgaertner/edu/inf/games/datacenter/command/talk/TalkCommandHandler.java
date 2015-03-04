@@ -9,15 +9,26 @@ import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.Greetings;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 import java.io.IOException;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static de.cpgaertner.edu.inf.games.datacenter.command.talk.TalkCommandHandler.State.*;
+import static de.cpgaertner.edu.inf.games.datacenter.routines.ComputerOneRoutine.KEY_LOG_STATUS;
+import static de.cpgaertner.edu.inf.games.datacenter.routines.ComputerOneRoutine.LOG_INVALID;
+
 public class TalkCommandHandler implements CommandHandler<TalkCommand> {
+
+
+    public static final String KEY_CONVERSATION_STATE = "TALK_CONV_STATE";
 
     public static final String RACK_POS_REGEX_STRING = ".*rack:([1-3])#(east|west)#([0-2])#([0-9])*.*";
     public static final Pattern RACK_POS_REGEX = Pattern.compile(RACK_POS_REGEX_STRING);
+
+    @Getter protected ConversationState state;
 
     @Override
     public Routine handle(Player player, TalkCommand cmd) throws IOException {
@@ -32,9 +43,15 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         adapter.send(new Greetings().getRandom());
 
+        if (player.getMetaData(KEY_CONVERSATION_STATE) == null) {
+            player.setMetaData(KEY_CONVERSATION_STATE, new ConversationState());
+        }
+
+        this.state = (ConversationState) player.getMetaData(KEY_CONVERSATION_STATE);
+
         while (run) {
 
-            Thought thought = think(adapter.read(">").toLowerCase());
+            Thought thought = think(player, adapter.read(">").toLowerCase());
 
             adapter.send(thought.getResponse());
 
@@ -47,16 +64,39 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             }
         }
 
+
         return null;
 
     }
 
 
 
-    protected Thought think(String string) {
+    protected Thought think(Player player, String string) {
+
+        if (string.equals("debug_dump_state")) {
+            return new Thought(string, getState().toString());
+        }
+
+        if (string.contains("fine") || string.contains("great") || string.contains("ok")) {
+            getState().add(Q_SHOULD_HELP);
+            return new Thought(string, "Nice to hear. Can I help you in some way?");
+        }
+
+        if (getState().contains(Q_SHOULD_HELP)) {
+            getState().remove(Q_SHOULD_HELP);
+            if (string.contains("y")) {
+                return new Thought(string, "What an honor. Go ahead an ask!");
+            } else if (string.contains("n")){
+                getState().add(Q_WHICH_TOPIC);
+                return new Thought(string, "Ok, what do you want to talk about then?");
+            } else {
+                getState().add(Q_SHOULD_HELP);
+                return new Thought(string, "Maybe answer with yes or no...");
+            }
+        }
 
         if (string.contains("?")) {
-            return handleQuestion(string);
+            return handleQuestion(player, string);
         }
 
 
@@ -65,7 +105,7 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
     }
 
 
-    protected Thought handleQuestion(String string) {
+    protected Thought handleQuestion(Player player, String string) {
         if (string.contains("where")) {
 
             if (string.startsWith("where")) {
@@ -130,10 +170,18 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         } else if (string.contains("who")) {
 
+            if (string.contains("hacked")) {
+                if ( player.getMetaData(KEY_LOG_STATUS) == null || player.getMetaValue(KEY_LOG_STATUS) == LOG_INVALID) {
+                    return new Thought(string, "I don't know yet, maybe you can help us?");
+                } else {
+                    return new Thought(string, "We only know, that his username was peter, no more no less");
+                }
+            }
+
         } else if (string.contains("when")) {
-
+            return new Thought(string, "Time is not absolute, it's relative, so the answer has to be 'anytime'.");
         } else if (string.contains("why")) {
-
+            return new Thought(string, "How long is a piece of string...?");
         }
 
         return new Thought(string, "I don't understand this question...");
@@ -149,5 +197,13 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         public Thought(String input, String response) {
             this(false, input, response, null);
         }
+    }
+
+    public final class ConversationState extends Vector<State> {}
+
+    public enum State {
+        Q_SHOULD_HELP,
+        Q_WHICH_TOPIC,
+
     }
 }
