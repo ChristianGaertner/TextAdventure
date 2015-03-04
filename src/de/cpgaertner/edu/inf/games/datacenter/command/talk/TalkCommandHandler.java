@@ -1,11 +1,13 @@
 package de.cpgaertner.edu.inf.games.datacenter.command.talk;
 
+import de.cpgaertner.edu.inf.Main;
 import de.cpgaertner.edu.inf.api.adapter.Adapter;
 import de.cpgaertner.edu.inf.api.command.handler.CommandHandler;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.Routine;
+import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.GoodFeelings;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.Greetings;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,13 +43,15 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         Adapter adapter = cmd.getAdapter();
 
 
-        adapter.send(new Greetings().getRandom());
 
         if (player.getMetaData(KEY_CONVERSATION_STATE) == null) {
             player.setMetaData(KEY_CONVERSATION_STATE, new ConversationState());
         }
 
         this.state = (ConversationState) player.getMetaData(KEY_CONVERSATION_STATE);
+
+        getState().add(Q_FEELINGS);
+        adapter.send(new Greetings().getRandom());
 
         while (run) {
 
@@ -73,13 +77,27 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
     protected Thought think(Player player, String string) {
 
-        if (string.equals("debug_dump_state")) {
+        if (string.equals("%%debug_dump_state%%") || (string.equals("dds") && Main.DEBUG)) {
             return new Thought(string, getState().toString());
         }
 
-        if (string.contains("fine") || string.contains("great") || string.contains("ok")) {
+        if (getState().contains(Q_FEELINGS)) {
+            getState().remove(Q_FEELINGS);
             getState().add(Q_SHOULD_HELP);
-            return new Thought(string, "Nice to hear. Can I help you in some way?");
+            boolean good = false;
+
+            for (String s : GoodFeelings.getSData()) {
+                good = string.contains(s);
+                if (good) {
+                    break;
+                }
+            }
+
+            if (good) {
+                return new Thought(string, "Nice to hear. Can I help you in some way?");
+            } else {
+                return new Thought(string, "What a shame... Can I help you in some way then?");
+            }
         }
 
         if (getState().contains(Q_SHOULD_HELP)) {
@@ -95,9 +113,40 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             }
         }
 
+        if (getState().contains(Q_WHICH_TOPIC)) {
+            getState().remove(Q_WHICH_TOPIC);
+
+
+
+            if (string.contains("game")) {
+                getState().add(T_GAME);
+                return new Thought(string, "Well, this game is awesome!");
+            }
+            if (string.contains("weather")) {
+                getState().add(Q_WHICH_TOPIC);
+                return new Thought(false, string,
+                        "Listen, I am just a computer, I cannot talk about the weather with you",
+                        "What do you want to talk about instead?"
+                        );
+            }
+        }
+
+        if (getState().contains(ANSWERED)) {
+            getState().remove(ANSWERED);
+            if (string.contains("thank")) {
+                return new Thought(string, "You're welcome");
+            }
+        }
+
+
         if (string.contains("?")) {
             return handleQuestion(player, string);
         }
+
+        if (string.contains("question") && string.contains("I") || string.contains("ask")) {
+            return new Thought(string, "Go ahead and ask me!");
+        }
+
 
 
 
@@ -106,6 +155,9 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
 
     protected Thought handleQuestion(Player player, String string) {
+
+        getState().add(ANSWERED);
+
         if (string.contains("where")) {
 
             if (string.startsWith("where")) {
@@ -170,6 +222,10 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         } else if (string.contains("who")) {
 
+            if (string.contains("are you")) {
+                return new Thought(string, "I'm Bob, I work in this datacenter!");
+            }
+
             if (string.contains("hacked")) {
                 if ( player.getMetaData(KEY_LOG_STATUS) == null || player.getMetaValue(KEY_LOG_STATUS) == LOG_INVALID) {
                     return new Thought(string, "I don't know yet, maybe you can help us?");
@@ -183,6 +239,9 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         } else if (string.contains("why")) {
             return new Thought(string, "How long is a piece of string...?");
         }
+
+        getState().add(MISUNDERSTOOD);
+        getState().remove(ANSWERED);
 
         return new Thought(string, "I don't understand this question...");
 
@@ -202,8 +261,17 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
     public final class ConversationState extends Vector<State> {}
 
     public enum State {
+        Q_FEELINGS,
         Q_SHOULD_HELP,
         Q_WHICH_TOPIC,
+
+
+        T_GAME,
+
+
+
+        ANSWERED,
+        MISUNDERSTOOD,
 
     }
 }
