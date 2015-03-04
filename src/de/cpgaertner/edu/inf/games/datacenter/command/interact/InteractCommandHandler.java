@@ -35,7 +35,7 @@ public class InteractCommandHandler implements CommandHandler<InteractCommand> {
         }
 
 
-        return interaction.handle(player, null, cmd.getAdapter());
+        return interaction.handle(player, cmd, cmd.getAdapter());
 
     }
 }

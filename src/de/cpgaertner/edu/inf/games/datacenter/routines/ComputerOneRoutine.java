@@ -76,7 +76,7 @@ public class ComputerOneRoutine extends InteractionRoutine {
 
         init(player, adapter);
 
-        boolean exit = prompt(player, adapter);
+        boolean exit = prompt(cmd, player, adapter);
 
 
         if (exit) {
@@ -87,27 +87,25 @@ public class ComputerOneRoutine extends InteractionRoutine {
         return this;
     }
 
-    protected static boolean prompt(Player player, Adapter adapter) throws IOException {
+    protected static boolean prompt(Command cmd, Player player, Adapter adapter) throws IOException {
 
-        String command = adapter.read("$");
-
-        if (command.equalsIgnoreCase("exit")) {
+        if (cmd.getName().equalsIgnoreCase("exit")) {
             adapter.send("Leaving computer screen...");
             return true;
-        } else if (command.equalsIgnoreCase("log")) {
+        } else if (cmd.getName().equalsIgnoreCase("log")) {
            cmdAccessLog(player, adapter);
-        } else if (command.equalsIgnoreCase("repair log")) {
+        } else if (cmd.getName().equalsIgnoreCase("repair log")) {
             cmdRepairLog(player, adapter);
-        }  else if (command.equalsIgnoreCase("history peter")) {
+        }  else if (cmd.getName().equalsIgnoreCase("history peter")) {
             cmdHistoryPeter(player, adapter);
-        }  else if (command.equalsIgnoreCase("./monitor.sh SERVER RACK 1")) {
+        }  else if (cmd.getName().equalsIgnoreCase("./monitor.sh SERVER RACK 1")) {
             cmdMonitorRackOne(player, adapter);
-        }  else if (command.equalsIgnoreCase("./configure.sh SERVER RACK 1")) {
+        }  else if (cmd.getName().equalsIgnoreCase("./configure.sh SERVER RACK 1")) {
             cmdConfigureRackOne(player, adapter);
-        }  else if (command.equalsIgnoreCase("./boot.sh SERVER RACK 1")) {
+        }  else if (cmd.getName().equalsIgnoreCase("./boot.sh SERVER RACK 1")) {
             cmdBootRackOne(player, adapter);
         } else {
-            adapter.sendf("No such command '%s'", command);
+            adapter.sendf("No such command '%s'", cmd.getName());
         }
 
         return false;
