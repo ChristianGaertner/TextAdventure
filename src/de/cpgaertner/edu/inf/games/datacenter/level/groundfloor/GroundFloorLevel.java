@@ -1,5 +1,6 @@
 package de.cpgaertner.edu.inf.games.datacenter.level.groundfloor;
 
+import de.cpgaertner.edu.inf.api.CoreEngine;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.Location;
@@ -193,7 +194,7 @@ public class GroundFloorLevel implements Level {
 
         ComputerLocation computer = (ComputerLocation) locations[0][0].getNorth();
 
-        computer.setRoutine(new ComputerOneRoutine());
+        computer.setRoutine(new ComputerOneRoutine(CoreEngine.getAdapter()));
 
         // rack with invalid HDD @see ComputerOneRoutine
 

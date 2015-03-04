@@ -5,10 +5,13 @@ import de.cpgaertner.edu.inf.api.command.Command;
 import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Level;
 import de.cpgaertner.edu.inf.api.level.player.Player;
+import de.cpgaertner.edu.inf.api.parsing.BasicCommandSystemManager;
+import de.cpgaertner.edu.inf.api.parsing.CommandSystemManager;
 import de.cpgaertner.edu.inf.api.routine.InteractionRoutine;
 import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRackLocation;
 import de.cpgaertner.edu.inf.games.datacenter.level.item.HardDrive;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.Date;
@@ -42,7 +45,20 @@ public class ComputerOneRoutine extends InteractionRoutine {
 
     public static final String KEY_COMPUTER_1_LOGIN = "COMPUTER_1_LOGIN";
 
+
+    @Getter protected CommandSystemManager commandSystemManager;
+
+
     public boolean loggedIn = false;
+
+    public ComputerOneRoutine(Adapter adapter) {
+        this.commandSystemManager = new BasicCommandSystemManager(adapter);
+    }
+
+    @Override
+    public String getPrompt() {
+        return "$";
+    }
 
     @Override
     public Routine handle(Player player, Command cmd, Adapter adapter) throws IOException {

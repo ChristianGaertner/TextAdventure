@@ -16,13 +16,13 @@ public class CoreEngine implements Runnable {
 
 
     protected Game game;
-    protected Adapter adapter;
+    @Getter protected static Adapter adapter;
 
     @Getter @Setter protected boolean run;
 
     public CoreEngine(Game game, Adapter adapter) {
         this.game = game;
-        this.adapter = adapter;
+        CoreEngine.adapter = adapter;
 
         /*
         Do some bootstrap stuff
