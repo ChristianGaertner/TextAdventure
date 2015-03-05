@@ -96,6 +96,26 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             return new Thought(true, string, "Good bye!", null);
         }
 
+        if (getState().contains(INSULTED)) {
+            getState().remove(INSULTED);
+            if (getState().contains(Q_VALIDATION)) {
+                getState().remove(Q_VALIDATION);
+                if (new Approval().contains(string)) {
+                    return new Thought(false, string, "This is not nice of you.", new Insults().getRandom());
+                } else {
+                    return new Thought(string, "I hope so!");
+                }
+            }
+
+            return new Thought(string, "Shut up, fucking " + new Insults().getRandom());
+        }
+
+        if (new Insults().contains(string)) {
+            getState().add(Q_VALIDATION);
+            getState().add(INSULTED);
+            return new Thought(string, "Did you say that to me?");
+        }
+
         if (getState().contains(Q_FEELINGS)) {
             getState().remove(Q_FEELINGS);
             getState().add(Q_SHOULD_HELP);
@@ -230,30 +250,6 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         }
 
-        if (getState().contains(Q_VALIDATION)) {
-            getState().remove(Q_VALIDATION);
-
-            if (new Approval().contains(string)) {
-                return new Thought(string, "Great!");
-            } else {
-                return new Thought(string, "We can agree that we disagree.");
-            }
-        }
-
-        if (getState().contains(INSULTED)) {
-            getState().remove(INSULTED);
-            if (getState().contains(Q_VALIDATION)) {
-                getState().remove(Q_VALIDATION);
-                if (new Approval().contains(string)) {
-                    return new Thought(false, string, "This is not nice of you.", new Insults().getRandom());
-                } else {
-                    return new Thought(string, "I hope so!");
-                }
-            }
-
-            return new Thought(string, "Shut up, fucking " + new Insults().getRandom());
-        }
-
         if (string.contains("?")) {
             return handleQuestion(player, string);
         }
@@ -262,10 +258,14 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             return new Thought(string, "Go ahead and ask me!");
         }
 
-        if (new Insults().contains(string)) {
-            getState().add(Q_VALIDATION);
-            getState().add(INSULTED);
-            return new Thought(string, "Did you say that to me?");
+        if (getState().contains(Q_VALIDATION)) {
+            getState().remove(Q_VALIDATION);
+
+            if (new Approval().contains(string)) {
+                return new Thought(string, "Great!");
+            } else {
+                return new Thought(string, "We can agree that we disagree.");
+            }
         }
 
 
