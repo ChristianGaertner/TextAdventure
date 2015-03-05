@@ -150,28 +150,28 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         if (getState().contains(T_BOB)) {
 
-            if (getState().contains(A_VALIDATION)) {
-                getState().remove(A_VALIDATION);
+            if (getState().contains(Q_VALIDATION)) {
+                getState().remove(Q_VALIDATION);
                 if (new Approval().contains(string)) {
                     getState().remove(T_BOB);
                     getState().add(T_USER);
                     return new Thought(false, string, "I'm so good at this.", "Tell me more about you!");
                 } else {
                     getState().remove(T_BOB);
-                    getState().add(A_WHOAREYOU);
+                    getState().add(Q_WHOAREYOU);
                     return new Thought(false, string, "Oh. I'm sorry!", "Who are you then?");
                 }
             }
 
             if (string.contains("meet")) {
-                getState().add(A_VALIDATION);
+                getState().add(Q_VALIDATION);
                 return new Thought(false, string, "The honor is on mine!", "You are " + player.getName() + ", right?");
             }
 
         }
 
-        if (getState().contains(A_WHOAREYOU)) {
-            getState().remove(A_WHOAREYOU);
+        if (getState().contains(Q_WHOAREYOU)) {
+            getState().remove(Q_WHOAREYOU);
 
             return new Thought(string, "Nice to meet you!");
 
@@ -336,6 +336,8 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         Q_FEELINGS,
         Q_SHOULD_HELP,
         Q_WHICH_TOPIC,
+        Q_WHOAREYOU,
+        Q_VALIDATION,
 
 
         T_GAME,
@@ -346,10 +348,8 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
 
         ANSWERED,
-        MISUNDERSTOOD,
+        MISUNDERSTOOD
 
-        A_VALIDATION,
-        A_WHOAREYOU
 
     }
 }
