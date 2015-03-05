@@ -10,6 +10,7 @@ import de.cpgaertner.edu.inf.api.routine.Routine;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.Approval;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.GoodFeelings;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.Greetings;
+import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.Insults;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.OfficeLocation;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.ServerRoomLocation;
 import lombok.AllArgsConstructor;
@@ -239,6 +240,20 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             }
         }
 
+        if (getState().contains(INSULTED)) {
+            getState().remove(INSULTED);
+            if (getState().contains(Q_VALIDATION)) {
+                getState().remove(Q_VALIDATION);
+                if (new Approval().contains(string)) {
+                    return new Thought(false, string, "This is not nice of you.", new Insults().getRandom());
+                } else {
+                    return new Thought(string, "I hope so!");
+                }
+            }
+
+            return new Thought(string, "Shut up, fucking " + new Insults().getRandom());
+        }
+
         if (string.contains("?")) {
             return handleQuestion(player, string);
         }
@@ -247,7 +262,11 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             return new Thought(string, "Go ahead and ask me!");
         }
 
-
+        if (new Insults().contains(string)) {
+            getState().add(Q_VALIDATION);
+            getState().add(INSULTED);
+            return new Thought(string, "Did you say that to me?");
+        }
 
 
         return new Thought(string, "Well well...");
@@ -407,6 +426,7 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         T_BOB,
         T_USER,
 
+        INSULTED,
 
 
         ANSWERED,
