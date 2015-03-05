@@ -19,6 +19,12 @@ The gameplay will consist of many puzzles and tasks to solve and eventually get 
 
 Just use the ingame `help` command to see a list of commands with their explanation and usage guide.
 
+### AI
+
+This game contains a simple AI which can answer basic questions and help the user to reach his/her goal.
+
+Start a conversation with the kind worker Bob with the command `talk`. You can ask him where stuff is or what to do...
+
 ### Map
 
 To get you started here is a handdrawn map of the first level:
