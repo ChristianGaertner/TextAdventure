@@ -297,6 +297,11 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             return new Thought(string, "Go ahead and ask me!");
         }
 
+        if (string.contains("interesting")) {
+            getState().add(Q_WHICH_TOPIC);
+            return new Thought(false, string, "Indeed.", "Maybe talk about something diffrent? What should we discuss?");
+        }
+
         if (getState().contains(Q_VALIDATION)) {
             getState().remove(Q_VALIDATION);
 
