@@ -112,6 +112,7 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         if (new Insults().contains(string)) {
             getState().add(Q_VALIDATION);
+            getState().remove(Q_SHOULD_HELP);
             getState().add(INSULTED);
             return new Thought(string, "Did you say that to me?");
         }
