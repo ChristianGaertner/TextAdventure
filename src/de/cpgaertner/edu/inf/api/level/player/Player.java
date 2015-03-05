@@ -9,6 +9,9 @@ import java.util.Map;
 
 public interface Player {
 
+
+    public static final String KEY_AGE = "age";
+
     public Object getMetaData(String key);
 
     public void setMetaData(String key, Object data);

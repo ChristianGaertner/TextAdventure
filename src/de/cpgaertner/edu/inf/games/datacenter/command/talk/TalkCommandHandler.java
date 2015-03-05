@@ -22,6 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static de.cpgaertner.edu.inf.api.level.Level.KEY_QUEST;
+import static de.cpgaertner.edu.inf.api.level.player.Player.KEY_AGE;
 import static de.cpgaertner.edu.inf.games.datacenter.command.talk.TalkCommandHandler.State.*;
 import static de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel.QUEST_FIND_COMPUTER;
 import static de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel.QUEST_REPLACE_HDD;
@@ -35,6 +36,9 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
     public static final String RACK_POS_REGEX_STRING = ".*rack:([1-3])#(east|west)#([0-2])#([0-9])*.*";
     public static final Pattern RACK_POS_REGEX = Pattern.compile(RACK_POS_REGEX_STRING);
+
+
+    public static final int AGE_BOB = 22;
 
     @Getter protected ConversationState state;
 
@@ -168,11 +172,71 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         }
 
+        if (getState().contains(T_USER)) {
+
+            if (getState().contains(Q_VALIDATION) && getState().contains(DUPL_INF)) {
+                getState().remove(DUPL_INF);
+                getState().remove(Q_VALIDATION);
+                if (new Approval().contains(string)) {
+                    return new Thought(string, "Yeah, see... I Computer never forgets!");
+                } else {
+                    return new Thought(string, "Anyway... Let's talk about you again!");
+                }
+            }
+
+            if (string.contains("years") || string.contains("old")) {
+
+                if (player.getMetaData(KEY_AGE) != null) {
+                    getState().add(Q_VALIDATION);
+                    getState().add(DUPL_INF);
+                    return new Thought(string, "I thought you already told me that...");
+                }
+
+                // Extract age from string
+                String ageString = string.replaceAll("\\D+","");
+                int age = Integer.parseInt(ageString);
+
+                if (age == 0) {
+                    return new Thought(string, "I'd bet $1000 that you are lying to me!");
+                }
+
+                if (age <= 5) {
+                    return new Thought(string, "You are bit young to play this game, aren't you?!");
+                }
+
+                if (age > 70) {
+                    return new Thought(string, "Didn't know old people like you know how to operate a command line app.");
+                }
+
+                player.setMetaValue(KEY_AGE, age);
+
+                int diff = AGE_BOB - age;
+
+                if (diff == 0) {
+                    return new Thought(string, "Oh, we are the same age");
+                } else if (diff > 0) {
+                    return new Thought(string, "Well I guess I'm just " + diff + " years older than you.");
+                } else {
+                    return new Thought(string, "Well I guess I'm just " + (-diff) + " years younger than you.");
+                }
+            }
+        }
+
         if (getState().contains(Q_WHOAREYOU)) {
             getState().remove(Q_WHOAREYOU);
 
             return new Thought(string, "Nice to meet you!");
 
+        }
+
+        if (getState().contains(Q_VALIDATION)) {
+            getState().remove(Q_VALIDATION);
+
+            if (new Approval().contains(string)) {
+                return new Thought(string, "Great!");
+            } else {
+                return new Thought(string, "We can agree that we disagree.");
+            }
         }
 
         if (string.contains("?")) {
@@ -346,7 +410,9 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
 
         ANSWERED,
-        MISUNDERSTOOD
+        MISUNDERSTOOD,
+
+        DUPL_INF,
 
 
     }
