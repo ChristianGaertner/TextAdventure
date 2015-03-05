@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 import static de.cpgaertner.edu.inf.api.level.Level.KEY_QUEST;
 import static de.cpgaertner.edu.inf.api.level.player.Player.KEY_AGE;
 import static de.cpgaertner.edu.inf.games.datacenter.command.talk.TalkCommandHandler.State.*;
+import static de.cpgaertner.edu.inf.games.datacenter.command.talk.TalkCommandHandler.StateMaster.TOPICS;
 import static de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel.QUEST_FIND_COMPUTER;
 import static de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.GroundFloorLevel.QUEST_REPLACE_HDD;
 import static de.cpgaertner.edu.inf.games.datacenter.routines.ComputerOneRoutine.KEY_LOG_STATUS;
@@ -96,6 +97,17 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             return new Thought(true, string, "Good bye!", null);
         }
 
+        if (getState().contains(Q_UNDERSTOOD_TOPIC)) {
+            getState().remove(Q_UNDERSTOOD_TOPIC);
+            if (new Approval().contains(string)) {
+                return new Thought(string, "Great!");
+            } else {
+                getState().add(Q_WHICH_TOPIC);
+                getState().remove(TOPICS);
+                return new Thought(string, "Ok what did you mean instead?");
+            }
+        }
+
         if (getState().contains(INSULTED)) {
             getState().remove(INSULTED);
             if (getState().contains(Q_VALIDATION)) {
@@ -149,6 +161,7 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
                 getState().add(T_GAME);
                 return new Thought(string, "Well, this game is awesome!");
             }
+
             if (string.contains("weather")) {
                 getState().add(Q_WHICH_TOPIC);
                 return new Thought(false, string,
@@ -156,6 +169,25 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
                         "What do you want to talk about instead?"
                         );
             }
+
+            if (string.contains("you")) {
+                getState().add(T_BOB);
+                return new Thought(string, "Well, I'm Bob.");
+            }
+
+            if (string.contains("Christian")) {
+                getState().add(Q_WHICH_TOPIC);
+                return new Thought(string, "Nothing to talk about. He's awesome.");
+            }
+
+            if (string.contains(player.getName())) {
+                getState().add(T_USER);
+                getState().add(Q_VALIDATION);
+                getState().add(Q_UNDERSTOOD_TOPIC);
+                return new Thought(string, "So you want to talk about you then?");
+            }
+
+            return new Thought(string, "I do not know anything about this. Maybe ask a question...");
         }
 
         if (getState().contains(ANSWERED)) {
@@ -418,7 +450,31 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         }
     }
 
-    public final class ConversationState extends Vector<State> {}
+    public final class ConversationState extends Vector<State> {
+
+        public void remove(StateMaster master) {
+            switch (master) {
+                case QUESTIONS:
+                    remove(Q_FEELINGS);
+                    remove(Q_SHOULD_HELP);
+                    remove(Q_WHICH_TOPIC);
+                    remove(Q_WHOAREYOU);
+                    remove(Q_VALIDATION);
+                    remove(Q_UNDERSTOOD_TOPIC);
+                    break;
+                case TOPICS:
+                    remove(T_BOB);
+                    remove(T_GAME);
+                    remove(T_USER);
+                    break;
+            }
+        }
+
+    }
+
+    public enum StateMaster {
+        QUESTIONS, TOPICS
+    }
 
     public enum State {
         Q_FEELINGS,
@@ -426,10 +482,9 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         Q_WHICH_TOPIC,
         Q_WHOAREYOU,
         Q_VALIDATION,
-
+        Q_UNDERSTOOD_TOPIC,
 
         T_GAME,
-
         T_BOB,
         T_USER,
 
@@ -438,6 +493,7 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         ANSWERED,
         MISUNDERSTOOD,
+
 
         DUPL_INF,
 
