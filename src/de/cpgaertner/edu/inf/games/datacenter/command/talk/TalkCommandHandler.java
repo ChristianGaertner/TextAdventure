@@ -94,16 +94,7 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         if (getState().contains(Q_FEELINGS)) {
             getState().remove(Q_FEELINGS);
             getState().add(Q_SHOULD_HELP);
-            boolean good = false;
-
-            for (String s : GoodFeelings.getSData()) {
-                good = string.contains(s);
-                if (good) {
-                    break;
-                }
-            }
-
-            if (good) {
+            if (new GoodFeelings().contains(string)) {
                 return new Thought(string, "Nice to hear. Can I help you in some way?");
             } else {
                 return new Thought(string, "What a shame... Can I help you in some way then?");
