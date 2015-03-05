@@ -7,6 +7,7 @@ import de.cpgaertner.edu.inf.api.level.Coordinate;
 import de.cpgaertner.edu.inf.api.level.Location;
 import de.cpgaertner.edu.inf.api.level.player.Player;
 import de.cpgaertner.edu.inf.api.routine.Routine;
+import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.Approval;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.GoodFeelings;
 import de.cpgaertner.edu.inf.games.datacenter.command.talk.data.Greetings;
 import de.cpgaertner.edu.inf.games.datacenter.level.groundfloor.location.OfficeLocation;
@@ -147,6 +148,34 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
             }
         }
 
+        if (getState().contains(T_BOB)) {
+
+            if (getState().contains(A_VALIDATION)) {
+                getState().remove(A_VALIDATION);
+                if (new Approval().contains(string)) {
+                    getState().remove(T_BOB);
+                    getState().add(T_USER);
+                    return new Thought(false, string, "I'm so good at this.", "Tell me more about you!");
+                } else {
+                    getState().remove(T_BOB);
+                    getState().add(A_WHOAREYOU);
+                    return new Thought(false, string, "Oh. I'm sorry!", "Who are you then?");
+                }
+            }
+
+            if (string.contains("meet")) {
+                getState().add(A_VALIDATION);
+                return new Thought(false, string, "The honor is on mine!", "You are " + player.getName() + ", right?");
+            }
+
+        }
+
+        if (getState().contains(A_WHOAREYOU)) {
+            getState().remove(A_WHOAREYOU);
+
+            return new Thought(string, "Nice to meet you!");
+
+        }
 
         if (string.contains("?")) {
             return handleQuestion(player, string);
@@ -240,6 +269,7 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
         if (string.contains("who")) {
 
             if (string.contains("are you")) {
+                getState().add(T_BOB);
                 return new Thought(string, "I'm Bob, I work in this datacenter!");
             }
 
@@ -310,10 +340,16 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
 
         T_GAME,
 
+        T_BOB,
+        T_USER,
+
 
 
         ANSWERED,
         MISUNDERSTOOD,
+
+        A_VALIDATION,
+        A_WHOAREYOU
 
     }
 }

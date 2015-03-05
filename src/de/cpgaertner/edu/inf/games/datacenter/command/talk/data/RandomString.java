@@ -14,4 +14,14 @@ public abstract class RandomString {
         return getData().get(RANDOM.nextInt(getData().size()));
     }
 
+    public boolean contains(String string) {
+        for (String v : getData()) {
+            if (string.contains(v)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
