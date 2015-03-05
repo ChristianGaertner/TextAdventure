@@ -12,7 +12,7 @@ because all sysadmins have left the building.
 The gameplay will consist of many puzzles and tasks to solve and eventually get the datacenter up and running again.
 
 
-*Disclaimer*: at this point in time no puzzle has been implemented so far!
+*Disclaimer*: at this point in time only one puzzle has been implemented so far!
 
 
 ### Commands
