@@ -168,6 +168,13 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
                 return new Thought(false, string, "The honor is on mine!", "You are " + player.getName() + ", right?");
             }
 
+            if (string.contains("tell")) {
+                getState().remove(T_BOB);
+                getState().add(T_USER);
+                return new Thought(string, "Well I started working here like 2 years ago, now I'm 23 years old and\n" +
+                        "do not know what to do with my life... It's complicated... What about you?");
+            }
+
         }
 
         if (getState().contains(Q_WHOAREYOU)) {
