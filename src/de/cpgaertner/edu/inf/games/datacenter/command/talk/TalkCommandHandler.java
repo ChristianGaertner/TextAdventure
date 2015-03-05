@@ -242,6 +242,12 @@ public class TalkCommandHandler implements CommandHandler<TalkCommand> {
                     return new Thought(string, "Well I guess I'm just " + (-diff) + " years younger than you.");
                 }
             }
+
+            if ((string.contains("don't") || string.contains("do not")) && (string.contains("talk") || string.contains("tell"))) {
+                getState().remove(T_USER);
+                getState().add(Q_WHICH_TOPIC);
+                return new Thought(false, string, "I can understand this!", "What do you want to talk about instead?");
+            }
         }
 
         if (getState().contains(Q_WHOAREYOU)) {
