@@ -15,6 +15,12 @@ The gameplay will consist of many puzzles and tasks to solve and eventually get 
 *Disclaimer*: at this point in time only one puzzle has been implemented so far!
 
 
+### Getting started
+To get started click on the _release_ link above and download the latest release.
+ You can start the program by double clicking. If this doesn't work try to run it from your CLI:
+
+ `java -jar TextAdventure-0.1.jar`
+
 ### Commands
 
 Just use the ingame `help` command to see a list of commands with their explanation and usage guide.
